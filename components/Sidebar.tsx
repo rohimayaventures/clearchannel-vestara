@@ -1,6 +1,7 @@
 "use client";
 
 import { SAMPLE_UTTERANCES } from "@/lib/types";
+import VoiceInput from "@/components/VoiceInput";
 
 interface SidebarProps {
   utterance: string;
@@ -27,6 +28,11 @@ export default function Sidebar({
   isOpen,
   onToggle,
 }: SidebarProps) {
+  const handleTranscript = (text: string) => {
+    onUtteranceChange(text);
+    setTimeout(() => onAnalyze(), 100);
+  };
+
   return (
     <div
       style={{
@@ -142,6 +148,10 @@ export default function Sidebar({
             >
               {isLoading ? "Analyzing..." : "Analyze across all channels →"}
             </button>
+            <VoiceInput
+              onTranscript={handleTranscript}
+              isAnalyzing={isLoading}
+            />
           </div>
 
           <div

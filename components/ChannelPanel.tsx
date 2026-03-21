@@ -1,6 +1,7 @@
 "use client";
 
 import { AnalysisResult } from "@/lib/types";
+import IVRPlayer from "@/components/IVRPlayer";
 
 interface ChannelPanelProps {
   channel: "ivr" | "chatbot" | "agent_assist";
@@ -114,6 +115,7 @@ function IVRBody({ data }: { data: AnalysisResult["ivr"] }) {
             ),
           }}
         />
+        <IVRPlayer text={data.spoken_response} />
       </div>
       <Divider />
       <div>
