@@ -13,11 +13,11 @@ function ColLabel({ children }: { children: React.ReactNode }) {
       style={{
         fontSize: "9px",
         fontWeight: 700,
-        color: "var(--color-text-muted)",
+        color: "var(--s-text-muted)",
         textTransform: "uppercase",
         letterSpacing: "0.08em",
         paddingBottom: "5px",
-        borderBottom: "1px solid var(--color-gray-border)",
+        borderBottom: "1px solid var(--s-border)",
         marginBottom: "5px",
       }}
     >
@@ -39,15 +39,16 @@ function MonoItem({
         fontSize: "10.5px",
         fontFamily: "var(--font-mono)",
         background: highlight
-          ? "var(--color-teal-light)"
-          : "var(--color-gray-surface)",
-        color: highlight ? "#0E6E8A" : "var(--color-text-secondary)",
+          ? "var(--s-accent-light)"
+          : "var(--s-surface-2)",
+        color: highlight ? "var(--s-accent)" : "var(--s-text-2)",
         padding: "3px 6px",
         borderRadius: "3px",
         marginBottom: "4px",
         overflow: "hidden",
         textOverflow: "ellipsis",
         whiteSpace: "nowrap",
+        transition: "all 0.4s ease",
       }}
     >
       {children}
@@ -61,7 +62,7 @@ function SkeletonRow({ width = "100%" }: { width?: string }) {
       className="skeleton"
       style={{
         height: "24px",
-        background: "var(--color-gray-surface)",
+        background: "var(--s-surface-2)",
         borderRadius: "3px",
         width,
         marginBottom: "4px",
@@ -75,17 +76,18 @@ export default function NLUSection({ result, isLoading }: NLUSectionProps) {
     <div
       id="nlu"
       style={{
-        background: "#fff",
-        border: "1px solid var(--color-gray-border)",
+        background: "var(--s-surface)",
+        border: "1px solid var(--s-border)",
         borderRadius: "8px",
         padding: "12px 14px",
+        transition: "all 0.4s ease",
       }}
     >
       <div
         style={{
           fontSize: "9.5px",
           fontWeight: 700,
-          color: "var(--color-text-muted)",
+          color: "var(--s-text-muted)",
           textTransform: "uppercase",
           letterSpacing: "0.1em",
           marginBottom: "11px",
@@ -95,7 +97,7 @@ export default function NLUSection({ result, isLoading }: NLUSectionProps) {
         {result && (
           <span
             style={{
-              color: "var(--color-text-primary)",
+              color: "var(--s-text)",
               marginLeft: "6px",
             }}
           >
@@ -160,7 +162,7 @@ export default function NLUSection({ result, isLoading }: NLUSectionProps) {
                   style={{
                     flex: 1,
                     height: "3px",
-                    background: "var(--color-gray-border)",
+                    background: "var(--s-border)",
                     borderRadius: "2px",
                     overflow: "hidden",
                   }}
@@ -168,9 +170,10 @@ export default function NLUSection({ result, isLoading }: NLUSectionProps) {
                   <div
                     style={{
                       height: "100%",
-                      background: "var(--color-navy)",
+                      background: "var(--s-text)",
                       borderRadius: "2px",
                       width: `${result.nlu.confidence_threshold * 100}%`,
+                      transition: "width 0.4s ease",
                     }}
                   />
                 </div>
@@ -178,7 +181,7 @@ export default function NLUSection({ result, isLoading }: NLUSectionProps) {
                   style={{
                     fontSize: "11px",
                     fontWeight: 700,
-                    color: "var(--color-text-primary)",
+                    color: "var(--s-text)",
                   }}
                 >
                   {result.nlu.confidence_threshold.toFixed(2)}
@@ -187,7 +190,7 @@ export default function NLUSection({ result, isLoading }: NLUSectionProps) {
               <div
                 style={{
                   fontSize: "9.5px",
-                  color: "var(--color-text-muted)",
+                  color: "var(--s-text-muted)",
                   lineHeight: 1.4,
                 }}
               >

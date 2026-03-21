@@ -53,8 +53,8 @@ export default function IVRPlayer({ text }: IVRPlayerProps) {
   };
 
   const getBorderColor = () => {
-    if (isPlaying) return "var(--color-teal)";
-    return "var(--color-gray-border)";
+    if (isPlaying) return "var(--s-accent)";
+    return "var(--s-border)";
   };
 
   return (
@@ -68,10 +68,10 @@ export default function IVRPlayer({ text }: IVRPlayerProps) {
         gap: "6px",
         width: "100%",
         marginTop: "8px",
-        background: "var(--color-gray-surface)",
+        background: "var(--s-surface-2)",
         color: isPlaying
-          ? "var(--color-teal)"
-          : "var(--color-text-secondary)",
+          ? "var(--s-accent)"
+          : "var(--s-text-2)",
         border: `1px solid ${getBorderColor()}`,
         borderRadius: "5px",
         padding: "7px 0",
@@ -80,20 +80,20 @@ export default function IVRPlayer({ text }: IVRPlayerProps) {
         cursor: isLoading || isPlaying ? "not-allowed" : "pointer",
         opacity: isLoading ? 0.6 : 1,
         fontFamily: "var(--font-sans)",
-        transition: "all 0.2s ease",
+        transition: "all 0.4s ease",
       }}
     >
       {isPlaying ? (
         <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
           <rect x="1.5" y="1.5" width="3" height="8"
-            rx="1" fill="var(--color-teal)" />
+            rx="1" fill="var(--s-accent)" />
           <rect x="6.5" y="1.5" width="3" height="8"
-            rx="1" fill="var(--color-teal)" />
+            rx="1" fill="var(--s-accent)" />
         </svg>
       ) : isLoading ? (
         <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
           <circle cx="5.5" cy="5.5" r="4"
-            stroke="var(--color-text-muted)"
+            stroke="var(--s-text-muted)"
             strokeWidth="1.2"
             strokeDasharray="6 6"
             strokeLinecap="round" />
@@ -101,7 +101,7 @@ export default function IVRPlayer({ text }: IVRPlayerProps) {
       ) : (
         <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
           <path d="M2 2l7 3.5L2 9V2z"
-            fill="var(--color-text-muted)" />
+            fill="var(--s-text-muted)" />
         </svg>
       )}
       {getLabel()}

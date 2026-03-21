@@ -14,6 +14,27 @@
   --color-text-muted: #8A94A0;
   --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+
+  /* Default semantic tokens (neutral) — inherited by body until page sets data-sentiment */
+  --s-bg: #F0F2F5;
+  --s-surface: #ffffff;
+  --s-surface-2: #F4F5F7;
+  --s-border: #E2E5EA;
+  --s-accent: #0891B2;
+  --s-accent-light: #EBF7FA;
+  --s-accent-border: #BAE6F0;
+  --s-text: #1B2E4B;
+  --s-text-2: #3D4F63;
+  --s-text-muted: #8A94A0;
+  --s-topbar: #1B2E4B;
+  --s-logo: #0891B2;
+  --s-mono-tint: #F4F5F7;
+  --s-intent-bg: #ffffff;
+  --s-pill-bg: #F0F2F5;
+  --s-pill-text: #8A94A0;
+  --s-prosody: #0891B2;
+  --s-topbar-text: #ffffff;
+  --s-topbar-muted: rgba(255, 255, 255, 0.45);
 }
 
 * {
@@ -23,12 +44,123 @@
 }
 
 body {
-  background: var(--color-gray-bg);
+  background: var(--s-bg);
   font-family: var(--font-sans);
   font-size: 13px;
-  color: var(--color-text-primary);
+  color: var(--s-text);
   line-height: 1.5;
 }
+
+[data-sentiment="neutral"] {
+  --s-bg: #F0F2F5;
+  --s-surface: #ffffff;
+  --s-surface-2: #F4F5F7;
+  --s-border: #E2E5EA;
+  --s-accent: #0891B2;
+  --s-accent-light: #EBF7FA;
+  --s-accent-border: #BAE6F0;
+  --s-text: #1B2E4B;
+  --s-text-2: #3D4F63;
+  --s-text-muted: #8A94A0;
+  --s-topbar: #1B2E4B;
+  --s-logo: #0891B2;
+  --s-mono-tint: #F4F5F7;
+  --s-intent-bg: #ffffff;
+  --s-pill-bg: #F0F2F5;
+  --s-pill-text: #8A94A0;
+  --s-prosody: #0891B2;
+  --s-topbar-text: #ffffff;
+  --s-topbar-muted: rgba(255, 255, 255, 0.45);
+}
+
+[data-sentiment="concerned"] {
+  --s-bg: #1C1408;
+  --s-surface: #221A09;
+  --s-surface-2: #2A2010;
+  --s-border: rgba(245,158,11,0.25);
+  --s-accent: #F59E0B;
+  --s-accent-light: rgba(245,158,11,0.15);
+  --s-accent-border: rgba(245,158,11,0.3);
+  --s-text: #FEF3C7;
+  --s-text-2: #FDE68A;
+  --s-text-muted: #D97706;
+  --s-topbar: #140F05;
+  --s-logo: #F59E0B;
+  --s-mono-tint: rgba(245,158,11,0.1);
+  --s-intent-bg: #221A09;
+  --s-pill-bg: rgba(245,158,11,0.2);
+  --s-pill-text: #FEF3C7;
+  --s-prosody: #F59E0B;
+  --s-topbar-text: var(--s-text);
+  --s-topbar-muted: var(--s-text-muted);
+}
+
+[data-sentiment="distressed"] {
+  --s-bg: #1A1128;
+  --s-surface: #1E1530;
+  --s-surface-2: #251B3A;
+  --s-border: rgba(124,58,237,0.25);
+  --s-accent: #7C3AED;
+  --s-accent-light: rgba(124,58,237,0.2);
+  --s-accent-border: rgba(124,58,237,0.4);
+  --s-text: #EDE9FE;
+  --s-text-2: #C4B5FD;
+  --s-text-muted: #A78BFA;
+  --s-topbar: #120D1E;
+  --s-logo: #7C3AED;
+  --s-mono-tint: rgba(124,58,237,0.1);
+  --s-intent-bg: #1E1530;
+  --s-pill-bg: rgba(124,58,237,0.2);
+  --s-pill-text: #DDD6FE;
+  --s-prosody: #A78BFA;
+  --s-topbar-text: var(--s-text);
+  --s-topbar-muted: var(--s-text-muted);
+}
+
+[data-sentiment="urgent"] {
+  --s-bg: #1C0A0A;
+  --s-surface: #1F0D0D;
+  --s-surface-2: #2A1010;
+  --s-border: rgba(220,38,38,0.25);
+  --s-accent: #DC2626;
+  --s-accent-light: rgba(220,38,38,0.15);
+  --s-accent-border: rgba(220,38,38,0.3);
+  --s-text: #FEE2E2;
+  --s-text-2: #FCA5A5;
+  --s-text-muted: #F87171;
+  --s-topbar: #140606;
+  --s-logo: #DC2626;
+  --s-mono-tint: rgba(220,38,38,0.1);
+  --s-intent-bg: #1F0D0D;
+  --s-pill-bg: rgba(220,38,38,0.2);
+  --s-pill-text: #FEE2E2;
+  --s-prosody: #DC2626;
+  --s-topbar-text: var(--s-text);
+  --s-topbar-muted: var(--s-text-muted);
+}
+
+[data-sentiment="confused"] {
+  --s-bg: #0D1520;
+  --s-surface: #111C2B;
+  --s-surface-2: #162234;
+  --s-border: rgba(96,165,250,0.25);
+  --s-accent: #3B82F6;
+  --s-accent-light: rgba(59,130,246,0.15);
+  --s-accent-border: rgba(59,130,246,0.3);
+  --s-text: #DBEAFE;
+  --s-text-2: #93C5FD;
+  --s-text-muted: #60A5FA;
+  --s-topbar: #080F18;
+  --s-logo: #3B82F6;
+  --s-mono-tint: rgba(59,130,246,0.1);
+  --s-intent-bg: #111C2B;
+  --s-pill-bg: rgba(59,130,246,0.2);
+  --s-pill-text: #DBEAFE;
+  --s-prosody: #60A5FA;
+  --s-topbar-text: var(--s-text);
+  --s-topbar-muted: var(--s-text-muted);
+}
+
 @keyframes shimmer {
   0% { opacity: 1; }
   50% { opacity: 0.3; }
@@ -37,5 +169,5 @@ body {
 
 .skeleton {
   animation: shimmer 1.2s ease-in-out infinite !important;
-  background: var(--color-gray-surface) !important;
+  background: var(--s-surface-2) !important;
 }

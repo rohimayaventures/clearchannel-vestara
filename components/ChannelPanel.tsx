@@ -13,12 +13,11 @@ const CHANNEL_CONFIG = {
   ivr: {
     name: "IVR",
     desc: "Phone channel",
-    iconBg: "#EEF2FF",
     icon: (
       <svg width="11" height="11" viewBox="0 0 13 13" fill="none">
         <path
           d="M2 2a1 1 0 011-1h1.5a1 1 0 011 .75l.5 2a1 1 0 01-.28.97l-.72.72a7 7 0 003.56 3.56l.72-.72a1 1 0 01.97-.28l2 .5A1 1 0 0113 9.5V11a1 1 0 01-1 1A10 10 0 012 2z"
-          stroke="#4F46E5"
+          stroke="currentColor"
           strokeWidth="1.2"
         />
       </svg>
@@ -27,12 +26,11 @@ const CHANNEL_CONFIG = {
   chatbot: {
     name: "Chatbot",
     desc: "Digital channel",
-    iconBg: "#F0FDF4",
     icon: (
       <svg width="11" height="11" viewBox="0 0 13 13" fill="none">
         <path
           d="M1 2a1 1 0 011-1h9a1 1 0 011 1v6a1 1 0 01-1 1H4L1 11V2z"
-          stroke="#16A34A"
+          stroke="currentColor"
           strokeWidth="1.2"
         />
       </svg>
@@ -41,13 +39,12 @@ const CHANNEL_CONFIG = {
   agent_assist: {
     name: "Agent Assist",
     desc: "Live agent support",
-    iconBg: "#FFF7ED",
     icon: (
       <svg width="11" height="11" viewBox="0 0 13 13" fill="none">
-        <circle cx="6.5" cy="4.5" r="2.5" stroke="#EA580C" strokeWidth="1.2" />
+        <circle cx="6.5" cy="4.5" r="2.5" stroke="currentColor" strokeWidth="1.2" />
         <path
           d="M1.5 11c0-2.2 2.2-4 5-4s5 1.8 5 4"
-          stroke="#EA580C"
+          stroke="currentColor"
           strokeWidth="1.2"
           strokeLinecap="round"
         />
@@ -62,7 +59,7 @@ function FieldLabel({ children }: { children: React.ReactNode }) {
       style={{
         fontSize: "9px",
         fontWeight: 700,
-        color: "var(--color-text-muted)",
+        color: "var(--s-text-muted)",
         textTransform: "uppercase",
         letterSpacing: "0.09em",
         marginBottom: "3px",
@@ -75,7 +72,7 @@ function FieldLabel({ children }: { children: React.ReactNode }) {
 
 function Divider() {
   return (
-    <div style={{ height: "1px", background: "var(--color-gray-border)" }} />
+    <div style={{ height: "1px", background: "var(--s-border)" }} />
   );
 }
 
@@ -85,7 +82,7 @@ function SkeletonRow({ width = "100%" }: { width?: string }) {
       className="skeleton"
       style={{
         height: "12px",
-        background: "var(--color-gray-surface)",
+        background: "var(--s-surface-2)",
         borderRadius: "3px",
         width,
       }}
@@ -102,16 +99,16 @@ function IVRBody({ data }: { data: AnalysisResult["ivr"] }) {
           style={{
             fontSize: "10.5px",
             fontFamily: "var(--font-mono)",
-            background: "var(--color-gray-surface)",
+            background: "var(--s-mono-tint)",
             padding: "6px 8px",
             borderRadius: "4px",
             lineHeight: 1.6,
-            color: "var(--color-text-primary)",
+            color: "var(--s-text)",
           }}
           dangerouslySetInnerHTML={{
             __html: data.spoken_response.replace(
               /\[([^\]]+)\]/g,
-              '<span style="color:var(--color-teal);font-style:italic;">[$1]</span>'
+              '<span style="color:var(--s-prosody);font-style:italic;">[$1]</span>'
             ),
           }}
         />
@@ -129,9 +126,9 @@ function IVRBody({ data }: { data: AnalysisResult["ivr"] }) {
                 padding: "2px 6px",
                 borderRadius: "3px",
                 fontFamily: "var(--font-mono)",
-                background: "var(--color-teal-light)",
-                color: "#0E6E8A",
-                border: "1px solid var(--color-teal-border)",
+                background: "var(--s-accent-light)",
+                color: "var(--s-accent)",
+                border: "1px solid var(--s-accent-border)",
               }}
             >
               {e}
@@ -145,9 +142,9 @@ function IVRBody({ data }: { data: AnalysisResult["ivr"] }) {
                 padding: "2px 6px",
                 borderRadius: "3px",
                 fontFamily: "var(--font-mono)",
-                background: "var(--color-gray-surface)",
-                color: "var(--color-text-muted)",
-                border: "1px solid var(--color-gray-border)",
+                background: "var(--s-surface-2)",
+                color: "var(--s-text-muted)",
+                border: "1px solid var(--s-border)",
               }}
             >
               {e}: —
@@ -170,7 +167,7 @@ function IVRBody({ data }: { data: AnalysisResult["ivr"] }) {
           <div
             key={item.label}
             style={{
-              background: "var(--color-gray-surface)",
+              background: "var(--s-surface-2)",
               borderRadius: "4px",
               padding: "6px 8px",
             }}
@@ -180,7 +177,7 @@ function IVRBody({ data }: { data: AnalysisResult["ivr"] }) {
               style={{
                 fontSize: "11px",
                 fontWeight: 600,
-                color: "var(--color-text-primary)",
+                color: "var(--s-text)",
               }}
             >
               {item.value}
@@ -200,7 +197,7 @@ function ChatbotBody({ data }: { data: AnalysisResult["chatbot"] }) {
         <div
           style={{
             fontSize: "11.5px",
-            color: "var(--color-text-primary)",
+            color: "var(--s-text)",
             lineHeight: 1.5,
           }}
         >
@@ -215,8 +212,8 @@ function ChatbotBody({ data }: { data: AnalysisResult["chatbot"] }) {
               key={qr}
               style={{
                 fontSize: "10px",
-                border: "1px solid #D1D5DB",
-                color: "#374151",
+                border: "1px solid var(--s-border)",
+                color: "var(--s-text-2)",
                 borderRadius: "10px",
                 padding: "2px 8px",
                 background: "transparent",
@@ -278,7 +275,7 @@ function AgentAssistBody({ data }: { data: AnalysisResult["agent_assist"] }) {
         style={{
           display: "flex",
           gap: "7px",
-          background: "var(--color-gray-surface)",
+          background: "var(--s-surface-2)",
           borderRadius: "4px",
           padding: "6px 9px",
           alignItems: "flex-start",
@@ -289,7 +286,7 @@ function AgentAssistBody({ data }: { data: AnalysisResult["agent_assist"] }) {
             width: "8px",
             height: "8px",
             borderRadius: "50%",
-            background: "var(--color-navy)",
+            background: "#1B2E4B",
             marginTop: "3px",
             flexShrink: 0,
           }}
@@ -298,7 +295,7 @@ function AgentAssistBody({ data }: { data: AnalysisResult["agent_assist"] }) {
           <div
             style={{
               fontSize: "11px",
-              color: "var(--color-text-secondary)",
+              color: "var(--s-text-2)",
               lineHeight: 1.4,
             }}
           >
@@ -307,7 +304,7 @@ function AgentAssistBody({ data }: { data: AnalysisResult["agent_assist"] }) {
           <div
             style={{
               fontSize: "9.5px",
-              color: "var(--color-text-muted)",
+              color: "var(--s-text-muted)",
               marginTop: "2px",
             }}
           >
@@ -357,22 +354,26 @@ export default function ChannelPanel({
   return (
     <div
       style={{
-        background: "#fff",
-        border: "1px solid var(--color-gray-border)",
+        background: "var(--s-surface)",
+        border: "1px solid var(--s-border)",
         borderRadius: "8px",
         overflow: "hidden",
         display: "flex",
         flexDirection: "column",
+        width: "100%",
+        transition: "all 0.4s ease",
       }}
     >
       <div
         style={{
           padding: "9px 12px",
-          borderBottom: "1px solid var(--color-gray-border)",
+          borderBottom: "1px solid var(--s-border)",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
           gap: "6px",
+          background: "var(--s-surface-2)",
+          transition: "all 0.4s ease",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
@@ -381,11 +382,12 @@ export default function ChannelPanel({
               width: "22px",
               height: "22px",
               borderRadius: "4px",
-              background: config.iconBg,
+              background: "var(--s-accent-light)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               flexShrink: 0,
+              color: "var(--s-accent)",
             }}
           >
             {config.icon}
@@ -395,13 +397,13 @@ export default function ChannelPanel({
               style={{
                 fontSize: "12px",
                 fontWeight: 700,
-                color: "var(--color-text-primary)",
+                color: "var(--s-text)",
               }}
             >
               {config.name}
             </div>
             <div
-              style={{ fontSize: "10px", color: "var(--color-text-muted)" }}
+              style={{ fontSize: "10px", color: "var(--s-text-muted)" }}
             >
               {config.desc}
             </div>
@@ -413,7 +415,7 @@ export default function ChannelPanel({
             style={{
               width: "64px",
               height: "18px",
-              background: "var(--color-gray-surface)",
+              background: "var(--s-surface-2)",
               borderRadius: "3px",
             }}
           />
@@ -424,8 +426,8 @@ export default function ChannelPanel({
               fontWeight: 600,
               padding: "2px 7px",
               borderRadius: "3px",
-              background: "var(--color-teal-light)",
-              color: "var(--color-teal)",
+              background: "var(--s-accent-light)",
+              color: "var(--s-accent)",
               whiteSpace: "nowrap",
             }}
           >
@@ -441,6 +443,7 @@ export default function ChannelPanel({
           flexDirection: "column",
           gap: "8px",
           flex: 1,
+          transition: "all 0.4s ease",
         }}
       >
         {isLoading || !data ? (

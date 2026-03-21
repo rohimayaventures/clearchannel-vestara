@@ -4,13 +4,14 @@ export default function Topbar() {
   return (
     <nav
       style={{
-        background: "var(--color-navy)",
+        background: "var(--s-topbar)",
         height: "48px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
         padding: "0 18px",
         flexShrink: 0,
+        transition: "all 0.4s ease",
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: "9px" }}>
@@ -18,18 +19,19 @@ export default function Topbar() {
           style={{
             width: "26px",
             height: "26px",
-            background: "var(--color-teal)",
+            background: "var(--s-logo)",
             borderRadius: "4px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             flexShrink: 0,
+            color: "var(--s-surface)",
           }}
         >
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path
               d="M3 7h8M7 3v8"
-              stroke="#fff"
+              stroke="currentColor"
               strokeWidth="1.8"
               strokeLinecap="round"
             />
@@ -37,7 +39,7 @@ export default function Topbar() {
               cx="7"
               cy="7"
               r="5.5"
-              stroke="#fff"
+              stroke="currentColor"
               strokeWidth="1.2"
               opacity="0.5"
             />
@@ -47,7 +49,7 @@ export default function Topbar() {
           style={{
             fontSize: "14px",
             fontWeight: 700,
-            color: "#fff",
+            color: "var(--s-topbar-text, var(--s-text))",
           }}
         >
           Vestara
@@ -56,14 +58,14 @@ export default function Topbar() {
           style={{
             width: "1px",
             height: "14px",
-            background: "rgba(255,255,255,0.2)",
+            background: "var(--s-border)",
             margin: "0 2px",
           }}
         />
         <span
           style={{
             fontSize: "12px",
-            color: "rgba(255,255,255,0.45)",
+            color: "var(--s-topbar-muted, var(--s-text-muted))",
           }}
         >
           ClearChannel — Conversational Design Lab
@@ -83,11 +85,13 @@ export default function Topbar() {
               fontWeight: 700,
               textTransform: "uppercase",
               letterSpacing: "0.05em",
-              color: "rgba(255,255,255,0.5)",
-              background: "rgba(255,255,255,0.08)",
+              color: "var(--s-text-2)",
+              background: "var(--s-accent-light)",
               padding: "3px 9px",
               borderRadius: "3px",
               textDecoration: "none",
+              border: "1px solid var(--s-accent-border)",
+              transition: "all 0.4s ease",
             }}
           >
             {item.label}

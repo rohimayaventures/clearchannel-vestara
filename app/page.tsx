@@ -5,7 +5,9 @@ import Topbar from "@/components/Topbar";
 import Sidebar from "@/components/Sidebar";
 import ChannelPanel from "@/components/ChannelPanel";
 import NLUSection from "@/components/NLUSection";
+import IntentBar from "@/components/IntentBar";
 import { AnalysisResult, SAMPLE_UTTERANCES } from "@/lib/types";
+
 
 export default function Home() {
   const [utterance, setUtterance] = useState<string>(SAMPLE_UTTERANCES[0]);
@@ -13,6 +15,8 @@ export default function Home() {
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const sentiment = result?.intent.sentiment ?? "neutral";
 
   const analyze = useCallback(async (text: string) => {
     setIsLoading(true);
@@ -49,14 +53,24 @@ export default function Home() {
 
   return (
     <div
+      data-sentiment={sentiment}
       style={{
         display: "flex",
         flexDirection: "column",
         height: "100vh",
         overflow: "hidden",
+        background: "var(--s-bg)",
+        transition: "all 0.5s ease",
       }}
     >
       <Topbar />
+      <IntentBar
+        intent={result?.intent.primary ?? ""}
+        variant={result?.intent.variant ?? null}
+        confidence={result?.intent.confidence ?? 0}
+        sentiment={sentiment}
+        isLoading={isLoading}
+      />
       <div style={{ display: "flex", flex: 1, overflow: "hidden", position: "relative" }}>
 
         <Sidebar
@@ -80,20 +94,33 @@ export default function Home() {
             flexDirection: "column",
             gap: "10px",
             overflowY: "auto",
-            background: "var(--color-gray-bg)",
-            transition: "all 0.25s ease",
+            background: "var(--s-bg)",
+            transition: "all 0.4s ease",
           }}
         >
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, minmax(0,1fr))",
-              gap: "9px",
+              display: "flex",
+              flexDirection: "row",
+              gap: "10px",
+              alignItems: "stretch",
             }}
           >
-            <ChannelPanel channel="ivr" result={result} isLoading={isLoading} />
-            <ChannelPanel channel="chatbot" result={result} isLoading={isLoading} />
-            <ChannelPanel channel="agent_assist" result={result} isLoading={isLoading} />
+            <div style={{ flex: "0 0 44%", minWidth: 0, display: "flex" }}>
+              <ChannelPanel channel="ivr" result={result} isLoading={isLoading} />
+            </div>
+            <div
+              style={{
+                flex: 1,
+                minWidth: 0,
+                display: "flex",
+                flexDirection: "column",
+                gap: "10px",
+              }}
+            >
+              <ChannelPanel channel="chatbot" result={result} isLoading={isLoading} />
+              <ChannelPanel channel="agent_assist" result={result} isLoading={isLoading} />
+            </div>
           </div>
           <NLUSection result={result} isLoading={isLoading} />
         </main>

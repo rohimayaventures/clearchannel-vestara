@@ -38,12 +38,12 @@ export default function Sidebar({
       style={{
         width: isOpen ? "210px" : "36px",
         flexShrink: 0,
-        background: "#fff",
-        borderRight: "1px solid var(--color-gray-border)",
+        background: "var(--s-surface)",
+        borderRight: "1px solid var(--s-border)",
         display: "flex",
         flexDirection: "column",
         height: "100%",
-        transition: "width 0.25s ease",
+        transition: "all 0.4s ease",
         overflow: "hidden",
         position: "relative",
       }}
@@ -57,8 +57,8 @@ export default function Sidebar({
           right: "8px",
           width: "20px",
           height: "20px",
-          background: "var(--color-gray-surface)",
-          border: "1px solid var(--color-gray-border)",
+          background: "var(--s-surface-2)",
+          border: "1px solid var(--s-border)",
           borderRadius: "4px",
           cursor: "pointer",
           display: "flex",
@@ -67,6 +67,7 @@ export default function Sidebar({
           zIndex: 10,
           flexShrink: 0,
           padding: 0,
+          transition: "all 0.4s ease",
         }}
       >
         <svg
@@ -81,7 +82,7 @@ export default function Sidebar({
         >
           <path
             d="M6.5 2L3.5 5l3 3"
-            stroke="var(--color-text-muted)"
+            stroke="var(--s-text-muted)"
             strokeWidth="1.4"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -94,7 +95,7 @@ export default function Sidebar({
           <div
             style={{
               padding: "14px 14px 10px",
-              borderBottom: "1px solid var(--color-gray-border)",
+              borderBottom: "1px solid var(--s-border)",
               paddingRight: "36px",
             }}
           >
@@ -102,7 +103,7 @@ export default function Sidebar({
               style={{
                 fontSize: "9.5px",
                 fontWeight: 700,
-                color: "var(--color-text-muted)",
+                color: "var(--s-text-muted)",
                 textTransform: "uppercase",
                 letterSpacing: "0.09em",
                 marginBottom: "7px",
@@ -116,15 +117,16 @@ export default function Sidebar({
               style={{
                 width: "100%",
                 height: "64px",
-                background: "var(--color-gray-surface)",
-                border: "1px solid var(--color-gray-border)",
+                background: "var(--s-surface-2)",
+                border: "1px solid var(--s-border)",
                 borderRadius: "5px",
                 padding: "8px 10px",
                 fontSize: "12px",
                 fontFamily: "var(--font-sans)",
                 resize: "none",
-                color: "var(--color-text-primary)",
+                color: "var(--s-text)",
                 outline: "none",
+                transition: "all 0.4s ease",
               }}
             />
             <button
@@ -134,7 +136,7 @@ export default function Sidebar({
                 display: "block",
                 width: "100%",
                 marginTop: "8px",
-                background: "var(--color-navy)",
+                background: "#1B2E4B",
                 color: "#fff",
                 border: "none",
                 borderRadius: "5px",
@@ -157,17 +159,18 @@ export default function Sidebar({
           <div
             style={{
               margin: "10px 14px 0",
-              background: "var(--color-teal-light)",
-              border: "1px solid var(--color-teal-border)",
+              background: "var(--s-accent-light)",
+              border: "1px solid var(--s-accent-border)",
               borderRadius: "5px",
               padding: "7px 10px",
+              transition: "all 0.4s ease",
             }}
           >
             <div
               style={{
                 fontSize: "9px",
                 fontWeight: 700,
-                color: "var(--color-teal)",
+                color: "var(--s-accent)",
                 textTransform: "uppercase",
                 letterSpacing: "0.08em",
               }}
@@ -179,7 +182,7 @@ export default function Sidebar({
                 fontSize: "11px",
                 fontWeight: 700,
                 fontFamily: "var(--font-mono)",
-                color: "var(--color-text-primary)",
+                color: "var(--s-text)",
                 marginTop: "2px",
                 wordBreak: "break-all",
                 lineHeight: 1.3,
@@ -200,7 +203,7 @@ export default function Sidebar({
             <span
               style={{
                 fontSize: "10px",
-                color: "var(--color-text-muted)",
+                color: "var(--s-text-muted)",
                 flexShrink: 0,
               }}
             >
@@ -210,7 +213,7 @@ export default function Sidebar({
               style={{
                 flex: 1,
                 height: "3px",
-                background: "var(--color-gray-border)",
+                background: "var(--s-border)",
                 borderRadius: "2px",
                 overflow: "hidden",
               }}
@@ -218,7 +221,7 @@ export default function Sidebar({
               <div
                 style={{
                   height: "100%",
-                  background: "var(--color-teal)",
+                  background: "var(--s-accent)",
                   borderRadius: "2px",
                   width: `${confidence * 100}%`,
                   transition: "width 0.4s ease",
@@ -229,7 +232,7 @@ export default function Sidebar({
               style={{
                 fontSize: "10px",
                 fontWeight: 700,
-                color: "var(--color-teal)",
+                color: "var(--s-accent)",
                 flexShrink: 0,
               }}
             >
@@ -248,7 +251,7 @@ export default function Sidebar({
               style={{
                 fontSize: "9.5px",
                 fontWeight: 700,
-                color: "var(--color-text-muted)",
+                color: "var(--s-text-muted)",
                 textTransform: "uppercase",
                 letterSpacing: "0.09em",
                 marginBottom: "8px",
@@ -269,17 +272,18 @@ export default function Sidebar({
                   marginBottom: "5px",
                   background:
                     index === activeIndex
-                      ? "var(--color-teal-light)"
-                      : "var(--color-gray-surface)",
+                      ? "var(--s-accent-light)"
+                      : "var(--s-surface-2)",
                   border:
                     index === activeIndex
-                      ? "1px solid var(--color-teal-border)"
-                      : "1px solid var(--color-gray-border)",
+                      ? "1px solid var(--s-accent-border)"
+                      : "1px solid var(--s-border)",
                   color:
                     index === activeIndex
-                      ? "var(--color-text-primary)"
-                      : "var(--color-text-secondary)",
+                      ? "var(--s-text)"
+                      : "var(--s-text-2)",
                   fontWeight: index === activeIndex ? 500 : 400,
+                  transition: "all 0.4s ease",
                 }}
               >
                 {sample}
@@ -290,14 +294,14 @@ export default function Sidebar({
               style={{
                 marginTop: "12px",
                 paddingTop: "12px",
-                borderTop: "1px solid var(--color-gray-border)",
+                borderTop: "1px solid var(--s-border)",
               }}
             >
               <div
                 style={{
                   fontSize: "9.5px",
                   fontWeight: 700,
-                  color: "var(--color-text-muted)",
+                  color: "var(--s-text-muted)",
                   textTransform: "uppercase",
                   letterSpacing: "0.09em",
                   marginBottom: "6px",
@@ -308,7 +312,7 @@ export default function Sidebar({
               <div
                 style={{
                   fontSize: "10.5px",
-                  color: "var(--color-text-secondary)",
+                  color: "var(--s-text-2)",
                   lineHeight: 1.5,
                 }}
               >
@@ -335,7 +339,7 @@ export default function Sidebar({
               writingMode: "vertical-rl",
               fontSize: "9px",
               fontWeight: 700,
-              color: "var(--color-text-muted)",
+              color: "var(--s-text-muted)",
               textTransform: "uppercase",
               letterSpacing: "0.09em",
               transform: "rotate(180deg)",

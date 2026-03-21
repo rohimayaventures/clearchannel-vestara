@@ -85,12 +85,12 @@ export default function VoiceInput({ onTranscript, isAnalyzing }: VoiceInputProp
 
   const getBackground = () => {
     if (isRecording) return "#DC2626";
-    return "var(--color-gray-surface)";
+    return "var(--s-surface-2)";
   };
 
   const getColor = () => {
     if (isRecording) return "#fff";
-    return "var(--color-text-secondary)";
+    return "var(--s-text-2)";
   };
 
   return (
@@ -106,7 +106,7 @@ export default function VoiceInput({ onTranscript, isAnalyzing }: VoiceInputProp
         marginTop: "6px",
         background: getBackground(),
         color: getColor(),
-        border: `1px solid ${isRecording ? "#DC2626" : "var(--color-gray-border)"}`,
+        border: `1px solid ${isRecording ? "#DC2626" : "var(--s-border)"}`,
         borderRadius: "5px",
         padding: "7px 0",
         fontSize: "12px",
@@ -114,7 +114,7 @@ export default function VoiceInput({ onTranscript, isAnalyzing }: VoiceInputProp
         cursor: isProcessing || isAnalyzing ? "not-allowed" : "pointer",
         opacity: isProcessing || isAnalyzing ? 0.6 : 1,
         fontFamily: "var(--font-sans)",
-        transition: "all 0.2s ease",
+        transition: "all 0.4s ease",
       }}
     >
       {isRecording ? (
@@ -124,12 +124,12 @@ export default function VoiceInput({ onTranscript, isAnalyzing }: VoiceInputProp
       ) : (
         <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
           <rect x="3.5" y="1" width="4" height="6" rx="2"
-            stroke="var(--color-text-muted)" strokeWidth="1.2" />
+            stroke="var(--s-text-muted)" strokeWidth="1.2" />
           <path d="M1.5 5.5a4 4 0 008 0"
-            stroke="var(--color-text-muted)" strokeWidth="1.2"
+            stroke="var(--s-text-muted)" strokeWidth="1.2"
             strokeLinecap="round" />
           <line x1="5.5" y1="9.5" x2="5.5" y2="8"
-            stroke="var(--color-text-muted)" strokeWidth="1.2"
+            stroke="var(--s-text-muted)" strokeWidth="1.2"
             strokeLinecap="round" />
         </svg>
       )}
