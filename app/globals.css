@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+:root {
+  --color-navy: #1B2E4B;
+  --color-navy-surface: #243B55;
+  --color-teal: #0891B2;
+  --color-teal-light: #EBF7FA;
+  --color-teal-border: #BAE6F0;
+  --color-gray-bg: #F0F2F5;
+  --color-gray-surface: #F4F5F7;
+  --color-gray-border: #E2E5EA;
+  --color-text-primary: #1B2E4B;
+  --color-text-secondary: #3D4F63;
+  --color-text-muted: #8A94A0;
+  --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--color-gray-bg);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--color-text-primary);
+  line-height: 1.5;
+}
+@keyframes shimmer {
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+.skeleton {
+  animation: shimmer 1.2s ease-in-out infinite !important;
+  background: var(--color-gray-surface) !important;
+}
