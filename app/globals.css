@@ -227,6 +227,19 @@ body {
    Mobile (<1024px): sidebar becomes a fixed drawer, panels stack.
    ============================================================ */
 
+/* --- Topbar elements hidden on mobile --- */
+.cc-topbar-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.cc-topbar-navlinks {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 /* --- Hamburger button (mobile-only) --- */
 .cc-hamburger {
   display: none;
@@ -366,6 +379,15 @@ body {
   /* Show hamburger */
   .cc-hamburger {
     display: flex;
+  }
+
+  /* Hide topbar nav links and subtitle on mobile */
+  .cc-topbar-navlinks {
+    display: none;
+  }
+
+  .cc-topbar-subtitle {
+    display: none;
   }
 
   /* Sidebar becomes a fixed off-canvas drawer */

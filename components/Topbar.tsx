@@ -61,49 +61,53 @@ export default function Topbar({ onDrawerOpen, realtimeActive, onRealtimeToggle 
         >
           Vestara
         </span>
-        <div
-          style={{
-            width: "1px",
-            height: "14px",
-            background: "var(--s-topbar-muted)",
-            margin: "0 2px",
-          }}
-        />
-        <span
-          style={{
-            fontSize: "12px",
-            color: "var(--s-topbar-muted)",
-          }}
-        >
-          ClearChannel — Conversational Design Lab
-        </span>
+        <div className="cc-topbar-subtitle">
+          <div
+            style={{
+              width: "1px",
+              height: "14px",
+              background: "var(--s-topbar-muted)",
+              margin: "0 2px",
+            }}
+          />
+          <span
+            style={{
+              fontSize: "12px",
+              color: "var(--s-topbar-muted)",
+            }}
+          >
+            ClearChannel — Conversational Design Lab
+          </span>
+        </div>
       </div>
 
       <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-        {[
-          { label: "NLU Architecture", href: "#nlu" },
-          { label: "Design Artifact", href: "/design-artifact" },
-        ].map((item) => (
-          <Link
-            key={item.label}
-            href={item.href}
-            style={{
-              fontSize: "10px",
-              fontWeight: 700,
-              textTransform: "uppercase",
-              letterSpacing: "0.05em",
-              color: "var(--s-topbar-muted)",
-              background: "rgba(255,255,255,0.08)",
-              padding: "3px 9px",
-              borderRadius: "3px",
-              textDecoration: "none",
-              border: "1px solid rgba(255,255,255,0.12)",
-              transition: "all 0.4s ease",
-            }}
-          >
-            {item.label}
-          </Link>
-        ))}
+        <div className="cc-topbar-navlinks">
+          {[
+            { label: "NLU Architecture", href: "#nlu" },
+            { label: "Design Artifact", href: "/design-artifact" },
+          ].map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              style={{
+                fontSize: "10px",
+                fontWeight: 700,
+                textTransform: "uppercase",
+                letterSpacing: "0.05em",
+                color: "var(--s-topbar-muted)",
+                background: "rgba(255,255,255,0.08)",
+                padding: "3px 9px",
+                borderRadius: "3px",
+                textDecoration: "none",
+                border: "1px solid rgba(255,255,255,0.12)",
+                transition: "all 0.4s ease",
+              }}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
 
         {/* Live Call toggle — always visible */}
         <button
