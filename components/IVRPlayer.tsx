@@ -68,6 +68,8 @@ export default function IVRPlayer({ text }: IVRPlayerProps) {
         sourceRef.current = null;
       };
 
+      // Re-resume in case the browser suspended the context during the network wait
+      await audioContext.resume();
       source.start(0);
     } catch (err) {
       console.error("Playback error:", err);
