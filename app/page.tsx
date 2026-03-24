@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Topbar from "@/components/Topbar";
 import Sidebar from "@/components/Sidebar";
 import ChannelPanel from "@/components/ChannelPanel";
 import NLUSection from "@/components/NLUSection";
 import IntentBar from "@/components/IntentBar";
+import AutoIVRPlayer from "@/components/AutoIVRPlayer";
 import { AnalysisResult, SAMPLE_UTTERANCES } from "@/lib/types";
 
 
@@ -16,10 +17,23 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarDrawerOpen, setSidebarDrawerOpen] = useState(false);
+  const [shouldAutoPlay, setShouldAutoPlay] = useState(false);
+  const voiceTriggered = useRef(false);
 
   const sentiment = result?.intent.sentiment ?? "neutral";
 
+  // Fire auto-play 400ms after a voice-triggered analysis completes.
+  // The delay mirrors the natural IVR processing beat between
+  // speech recognition and the system's first spoken response.
+  useEffect(() => {
+    if (!result || isLoading || !voiceTriggered.current) return;
+    voiceTriggered.current = false;
+    const timer = setTimeout(() => setShouldAutoPlay(true), 400);
+    return () => clearTimeout(timer);
+  }, [result, isLoading]);
+
   const analyze = useCallback(async (text: string) => {
+    setShouldAutoPlay(false); // cancel any in-flight auto-play
     setIsLoading(true);
     setResult(null);
     try {
@@ -40,6 +54,12 @@ export default function Home() {
 
   useEffect(() => {
     analyze(SAMPLE_UTTERANCES[0]);
+  }, [analyze]);
+
+  const analyzeFromVoice = useCallback((text: string) => {
+    voiceTriggered.current = true;
+    setUtterance(text);
+    analyze(text);
   }, [analyze]);
 
   const handleSampleClick = (index: number, value: string) => {
@@ -65,6 +85,11 @@ export default function Home() {
         transition: "all 0.5s ease",
       }}
     >
+      <AutoIVRPlayer
+        text={result?.ivr.spoken_response ?? null}
+        shouldPlay={shouldAutoPlay}
+        onPlayComplete={() => setShouldAutoPlay(false)}
+      />
       <Topbar onDrawerOpen={() => setSidebarDrawerOpen(true)} />
       <IntentBar
         intent={result?.intent.primary ?? ""}
@@ -101,6 +126,7 @@ export default function Home() {
             utterance={utterance}
             onUtteranceChange={setUtterance}
             onAnalyze={handleAnalyze}
+            onVoiceAnalyze={analyzeFromVoice}
             activeIndex={activeIndex}
             onSampleClick={handleSampleClick}
             intent={result?.intent.primary ?? ""}

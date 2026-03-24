@@ -7,6 +7,7 @@ interface SidebarProps {
   utterance: string;
   onUtteranceChange: (value: string) => void;
   onAnalyze: () => void;
+  onVoiceAnalyze: (text: string) => void;
   activeIndex: number;
   onSampleClick: (index: number, value: string) => void;
   intent: string;
@@ -21,6 +22,7 @@ export default function Sidebar({
   utterance,
   onUtteranceChange,
   onAnalyze,
+  onVoiceAnalyze,
   activeIndex,
   onSampleClick,
   intent,
@@ -30,11 +32,6 @@ export default function Sidebar({
   onToggle,
   isMobileDrawer = false,
 }: SidebarProps) {
-  const handleTranscript = (text: string) => {
-    onUtteranceChange(text);
-    setTimeout(() => onAnalyze(), 100);
-  };
-
   const showContent = isMobileDrawer || isOpen;
 
   return (
@@ -157,7 +154,7 @@ export default function Sidebar({
               {isLoading ? "Analyzing..." : "Analyze across all channels →"}
             </button>
             <VoiceInput
-              onTranscript={handleTranscript}
+              onTranscript={onVoiceAnalyze}
               isAnalyzing={isLoading}
             />
           </div>
