@@ -10,36 +10,33 @@ interface IVRPlayerProps {
  * Compact play button for the IVR panel header.
  * Three states: idle (filled accent), loading (dimmed spinner),
  * playing (pause icon + gentle pulse animation).
+ *
+ * Uses HTML Audio + Blob URL instead of AudioContext so the
+ * user-gesture token isn't lost across awaits on iOS Safari.
  */
 export default function IVRPlayer({ text }: IVRPlayerProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const sourceRef = useRef<AudioBufferSourceNode | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const blobUrlRef = useRef<string | null>(null);
 
-  useEffect(() => {
-    return () => {
-      if (sourceRef.current) {
-        try { sourceRef.current.stop(); } catch { /* already stopped */ }
-        sourceRef.current = null;
-      }
-      if (audioContextRef.current) {
-        audioContextRef.current.close();
-        audioContextRef.current = null;
-      }
-    };
-  }, []);
+  const cleanup = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+    if (blobUrlRef.current) {
+      URL.revokeObjectURL(blobUrlRef.current);
+      blobUrlRef.current = null;
+    }
+  };
+
+  useEffect(() => cleanup, []);
 
   const handlePlay = async () => {
     if (isLoading || isPlaying) return;
+    cleanup();
     setIsLoading(true);
-
-    // Create and resume AudioContext synchronously inside the tap gesture.
-    // iOS Safari drops the user-gesture token on the first await, so this
-    // must happen before any async work or the browser silently blocks audio.
-    const audioContext = new AudioContext();
-    audioContextRef.current = audioContext;
-    await audioContext.resume();
 
     try {
       const res = await fetch("/api/speak", {
@@ -50,31 +47,26 @@ export default function IVRPlayer({ text }: IVRPlayerProps) {
 
       if (!res.ok) throw new Error("Speech failed");
 
-      const arrayBuffer = await res.arrayBuffer();
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      blobUrlRef.current = url;
 
-      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-      const source = audioContext.createBufferSource();
-      sourceRef.current = source;
-      source.buffer = audioBuffer;
-      source.connect(audioContext.destination);
+      const audio = new Audio(url);
+      audioRef.current = audio;
+
+      audio.onended = () => {
+        setIsPlaying(false);
+        cleanup();
+      };
 
       setIsLoading(false);
       setIsPlaying(true);
-
-      source.onended = () => {
-        setIsPlaying(false);
-        audioContext.close();
-        audioContextRef.current = null;
-        sourceRef.current = null;
-      };
-
-      // Re-resume in case the browser suspended the context during the network wait
-      await audioContext.resume();
-      source.start(0);
+      await audio.play();
     } catch (err) {
       console.error("Playback error:", err);
       setIsLoading(false);
       setIsPlaying(false);
+      cleanup();
     }
   };
 

@@ -218,7 +218,7 @@ export async function POST(request: NextRequest) {
   const safe = utterance.trim();
 
   try {
-    const message = await client.messages.create({
+    const stream = client.messages.stream({
       model: "claude-sonnet-4-6",
       max_tokens: 2048,
       system: SYSTEM_PROMPT,
@@ -230,25 +230,38 @@ export async function POST(request: NextRequest) {
       ],
     });
 
-    const content = message.content[0];
-    if (content.type !== "text") {
-      throw new Error("Unexpected response type from Claude");
-    }
+    const encoder = new TextEncoder();
 
-    const cleaned = content.text
-      .replace(/```json/g, "")
-      .replace(/```/g, "")
-      .trim();
+    const readable = new ReadableStream({
+      async start(controller) {
+        try {
+          stream.on("text", (text) => {
+            controller.enqueue(
+              encoder.encode(`data: ${JSON.stringify({ text })}\n\n`)
+            );
+          });
+          await stream.finalMessage();
+          controller.enqueue(encoder.encode("data: [DONE]\n\n"));
+          controller.close();
+        } catch (err) {
+          console.error("Stream error:", err);
+          controller.enqueue(
+            encoder.encode(
+              `data: ${JSON.stringify({ error: "Stream failed" })}\n\n`
+            )
+          );
+          controller.close();
+        }
+      },
+    });
 
-    let parsed: unknown;
-    try {
-      parsed = JSON.parse(cleaned);
-    } catch {
-      console.error("JSON parse failed. Raw response:", cleaned);
-      return NextResponse.json({ error: "Analysis returned malformed data" }, { status: 500 });
-    }
-
-    return NextResponse.json(parsed);
+    return new Response(readable, {
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache, no-transform",
+        Connection: "keep-alive",
+      },
+    });
   } catch (error) {
     console.error("Analysis error:", error);
     return NextResponse.json({ error: "Analysis failed" }, { status: 500 });

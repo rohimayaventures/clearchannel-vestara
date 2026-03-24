@@ -112,7 +112,7 @@ export default function Sidebar({
                 marginBottom: "7px",
               }}
             >
-              Investor Utterance
+              Customer Utterance
             </div>
             <textarea
               value={utterance}
@@ -319,7 +319,7 @@ export default function Sidebar({
                   lineHeight: 1.5,
                 }}
               >
-                Type any investor utterance above and click Analyze.
+                Type any customer utterance above and click Analyze.
               </div>
             </div>
           </div>

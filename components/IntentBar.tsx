@@ -51,7 +51,7 @@ export default function IntentBar({
                 gap: "0 0",
               }}
             >
-              {isLoading ? (
+              {isLoading && !intent ? (
                 <div
                   className="skeleton"
                   style={{ width: "200px", height: "24px", borderRadius: "4px" }}
@@ -121,7 +121,7 @@ export default function IntentBar({
                 transition: "color 0.5s ease",
               }}
             >
-              {isLoading ? "—" : confidence.toFixed(2)}
+              {isLoading && !intent ? "—" : confidence.toFixed(2)}
             </span>
           </div>
         </div>

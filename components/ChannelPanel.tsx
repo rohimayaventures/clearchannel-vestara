@@ -410,10 +410,10 @@ export default function ChannelPanel({
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
           {/* IVR play button lives in the header as the primary audio action */}
-          {channel === "ivr" && !isLoading && result?.ivr.spoken_response && (
+          {channel === "ivr" && result?.ivr?.spoken_response && (
             <IVRPlayer text={result.ivr.spoken_response} />
           )}
-          {isLoading || !badgeText ? (
+          {!badgeText ? (
             <div
               className="skeleton"
               style={{
@@ -451,7 +451,7 @@ export default function ChannelPanel({
           transition: "all 0.4s ease",
         }}
       >
-        {isLoading || !data ? (
+        {!data ? (
           <>
             <SkeletonRow width="100%" />
             <SkeletonRow width="80%" />

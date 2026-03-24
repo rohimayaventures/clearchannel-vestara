@@ -145,7 +145,7 @@ export default function VoiceInput({ onTranscript, isAnalyzing }: VoiceInputProp
   const getLabel = () => {
     if (isProcessing) return "Transcribing...";
     if (isRecording) return "Stop recording";
-    return "Speak utterance";
+    return "Speak an utterance";
   };
 
   return (

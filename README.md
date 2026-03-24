@@ -85,7 +85,7 @@ Designed to read as a production financial services internal tool.
 ## Portfolio context
 
 ClearChannel demonstrates conversational UX systems thinking across 
-all three channels enterprise companies deploy: phone IVR, digital 
+all three channels that enterprise companies deploy: phone IVR, digital 
 chatbot, and live agent assist. Built as a portfolio project targeting 
 UX Strategist and Conversational AI roles in regulated industries.
 

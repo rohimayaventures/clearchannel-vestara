@@ -141,7 +141,7 @@ export default function NLUSection({ result, isLoading, isExpanded, onToggle }: 
       <div className="cc-nlu-scroll-outer">
         <div className="cc-nlu-scroll">
           <div className="cc-nlu-grid">
-            {isLoading || !result ? (
+            {!result?.nlu ? (
               Array.from({ length: 4 }).map((_, col) => (
                 <div key={col}>
                   <SkeletonRow width="60%" />

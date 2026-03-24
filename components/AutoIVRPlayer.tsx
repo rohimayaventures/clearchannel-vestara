@@ -11,17 +11,16 @@ interface AutoIVRPlayerProps {
 /**
  * Headless component — renders nothing.
  * When shouldPlay flips to true, fetches /api/speak and plays the
- * IVR response automatically. Cleans up AudioContext on unmount
- * or when a new play cycle cancels the previous one.
+ * IVR response automatically. Uses HTML Audio + Blob URL instead
+ * of AudioContext to preserve the iOS Safari user-gesture token.
  */
 export default function AutoIVRPlayer({
   text,
   shouldPlay,
   onPlayComplete,
 }: AutoIVRPlayerProps) {
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const sourceRef = useRef<AudioBufferSourceNode | null>(null);
-  // Keep callback ref current so the effect closure is never stale
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const blobUrlRef = useRef<string | null>(null);
   const onPlayCompleteRef = useRef(onPlayComplete);
   useEffect(() => {
     onPlayCompleteRef.current = onPlayComplete;
@@ -31,6 +30,17 @@ export default function AutoIVRPlayer({
     if (!shouldPlay || !text) return;
 
     let cancelled = false;
+
+    const cleanup = () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+      if (blobUrlRef.current) {
+        URL.revokeObjectURL(blobUrlRef.current);
+        blobUrlRef.current = null;
+      }
+    };
 
     const play = async () => {
       try {
@@ -42,35 +52,25 @@ export default function AutoIVRPlayer({
 
         if (!res.ok || cancelled) return;
 
-        const arrayBuffer = await res.arrayBuffer();
+        const blob = await res.blob();
         if (cancelled) return;
 
-        const audioContext = new AudioContext();
-        audioContextRef.current = audioContext;
+        const url = URL.createObjectURL(blob);
+        blobUrlRef.current = url;
 
-        const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-        if (cancelled) {
-          audioContext.close();
-          audioContextRef.current = null;
-          return;
-        }
+        const audio = new Audio(url);
+        audioRef.current = audio;
 
-        const source = audioContext.createBufferSource();
-        sourceRef.current = source;
-        source.buffer = audioBuffer;
-        source.connect(audioContext.destination);
-
-        source.onended = () => {
+        audio.onended = () => {
           if (!cancelled) onPlayCompleteRef.current();
-          audioContext.close();
-          audioContextRef.current = null;
-          sourceRef.current = null;
+          cleanup();
         };
 
-        source.start(0);
+        await audio.play();
       } catch (err) {
         console.error("Auto-play error:", err);
         if (!cancelled) onPlayCompleteRef.current();
+        cleanup();
       }
     };
 
@@ -78,14 +78,7 @@ export default function AutoIVRPlayer({
 
     return () => {
       cancelled = true;
-      if (sourceRef.current) {
-        try { sourceRef.current.stop(); } catch { /* already ended */ }
-        sourceRef.current = null;
-      }
-      if (audioContextRef.current) {
-        audioContextRef.current.close();
-        audioContextRef.current = null;
-      }
+      cleanup();
     };
   }, [shouldPlay, text]);
 

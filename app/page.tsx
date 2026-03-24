@@ -8,9 +8,63 @@ import NLUSection from "@/components/NLUSection";
 import IntentBar from "@/components/IntentBar";
 import AutoIVRPlayer from "@/components/AutoIVRPlayer";
 import RealtimeSession from "@/components/RealtimeSession";
+import WelcomeModal from "@/components/WelcomeModal";
 import { AnalysisResult, SAMPLE_UTTERANCES } from "@/lib/types";
 import { SEED_RESULT } from "@/lib/seedResult";
 
+const SECTION_KEYS = ["intent", "ivr", "chatbot", "agent_assist", "nlu"] as const;
+
+function extractCompleteSections(text: string): Partial<AnalysisResult> {
+  const out: Record<string, unknown> = {};
+
+  for (const key of SECTION_KEYS) {
+    const tag = `"${key}"`;
+    const keyIdx = text.indexOf(tag);
+    if (keyIdx === -1) continue;
+
+    const colonIdx = text.indexOf(":", keyIdx + tag.length);
+    if (colonIdx === -1) continue;
+
+    let braceStart = -1;
+    for (let i = colonIdx + 1; i < text.length; i++) {
+      const ch = text[i];
+      if (ch === " " || ch === "\n" || ch === "\r" || ch === "\t") continue;
+      if (ch === "{") {
+        braceStart = i;
+        break;
+      }
+      break;
+    }
+    if (braceStart === -1) continue;
+
+    let depth = 0;
+    let inStr = false;
+    let esc = false;
+    let braceEnd = -1;
+
+    for (let i = braceStart; i < text.length; i++) {
+      const ch = text[i];
+      if (esc) { esc = false; continue; }
+      if (ch === "\\" && inStr) { esc = true; continue; }
+      if (ch === '"') { inStr = !inStr; continue; }
+      if (inStr) continue;
+      if (ch === "{") depth++;
+      else if (ch === "}") {
+        depth--;
+        if (depth === 0) { braceEnd = i; break; }
+      }
+    }
+    if (braceEnd === -1) continue;
+
+    try {
+      out[key] = JSON.parse(text.substring(braceStart, braceEnd + 1));
+    } catch {
+      /* section not yet valid */
+    }
+  }
+
+  return out as Partial<AnalysisResult>;
+}
 
 export default function Home() {
   const [utterance, setUtterance] = useState<string>(SAMPLE_UTTERANCES[0]);
@@ -37,7 +91,7 @@ export default function Home() {
   }, [result, isLoading]);
 
   const analyze = useCallback(async (text: string) => {
-    setShouldAutoPlay(false); // cancel any in-flight auto-play
+    setShouldAutoPlay(false);
     setIsLoading(true);
     setResult(null);
     try {
@@ -47,8 +101,52 @@ export default function Home() {
         body: JSON.stringify({ utterance: text }),
       });
       if (!res.ok) throw new Error("Analysis failed");
-      const data = await res.json();
-      setResult(data);
+
+      const reader = res.body!.getReader();
+      const decoder = new TextDecoder();
+      let accumulated = "";
+      let lineBuf = "";
+      let lastSectionCount = 0;
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        lineBuf += decoder.decode(value, { stream: true });
+        const lines = lineBuf.split("\n");
+        lineBuf = lines.pop() ?? "";
+
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed.startsWith("data: ")) continue;
+          const payload = trimmed.slice(6);
+          if (payload === "[DONE]") continue;
+          try {
+            const { text: t } = JSON.parse(payload);
+            if (t) accumulated += t;
+          } catch {
+            /* skip malformed */
+          }
+        }
+
+        const sections = extractCompleteSections(accumulated);
+        const count = Object.keys(sections).length;
+        if (count > lastSectionCount) {
+          lastSectionCount = count;
+          setResult(sections as AnalysisResult);
+        }
+      }
+
+      // Final parse of the complete response
+      const cleaned = accumulated
+        .replace(/```json/g, "")
+        .replace(/```/g, "")
+        .trim();
+      try {
+        setResult(JSON.parse(cleaned));
+      } catch {
+        /* keep whatever we progressively parsed */
+      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -94,6 +192,7 @@ export default function Home() {
         transition: "all 0.5s ease",
       }}
     >
+      <WelcomeModal />
       <AutoIVRPlayer
         text={result?.ivr.spoken_response ?? null}
         shouldPlay={shouldAutoPlay}

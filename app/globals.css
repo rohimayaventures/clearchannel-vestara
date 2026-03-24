@@ -464,7 +464,26 @@ body {
   }
 }
 
+/* --- Welcome modal "What you'll see" rows --- */
+.cc-welcome-row {
+  display: flex;
+  gap: 8px;
+}
+
+.cc-welcome-label {
+  min-width: 130px;
+  flex-shrink: 0;
+}
+
 @media (max-width: 767px) {
+  .cc-welcome-row {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .cc-welcome-label {
+    min-width: 0;
+  }
   /* Shorter transcript on small screens to preserve space for channel panels */
   .cc-rt-transcript {
     max-height: 80px;
