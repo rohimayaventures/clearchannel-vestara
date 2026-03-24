@@ -7,6 +7,7 @@ import ChannelPanel from "@/components/ChannelPanel";
 import NLUSection from "@/components/NLUSection";
 import IntentBar from "@/components/IntentBar";
 import AutoIVRPlayer from "@/components/AutoIVRPlayer";
+import RealtimeSession from "@/components/RealtimeSession";
 import { AnalysisResult, SAMPLE_UTTERANCES } from "@/lib/types";
 
 
@@ -18,6 +19,7 @@ export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarDrawerOpen, setSidebarDrawerOpen] = useState(false);
   const [shouldAutoPlay, setShouldAutoPlay] = useState(false);
+  const [realtimeOpen, setRealtimeOpen] = useState(false);
   const voiceTriggered = useRef(false);
 
   const sentiment = result?.intent.sentiment ?? "neutral";
@@ -73,6 +75,15 @@ export default function Home() {
     analyze(utterance);
   };
 
+  const handleSessionEnd = useCallback((callerUtterance: string) => {
+    if (callerUtterance.trim()) {
+      voiceTriggered.current = true;
+      setUtterance(callerUtterance);
+      analyze(callerUtterance);
+    }
+    setRealtimeOpen(false);
+  }, [analyze]);
+
   return (
     <div
       data-sentiment={sentiment}
@@ -90,7 +101,16 @@ export default function Home() {
         shouldPlay={shouldAutoPlay}
         onPlayComplete={() => setShouldAutoPlay(false)}
       />
-      <Topbar onDrawerOpen={() => setSidebarDrawerOpen(true)} />
+      <Topbar
+        onDrawerOpen={() => setSidebarDrawerOpen(true)}
+        realtimeActive={realtimeOpen}
+        onRealtimeToggle={() => setRealtimeOpen((o) => !o)}
+      />
+      <RealtimeSession
+        isOpen={realtimeOpen}
+        onClose={() => setRealtimeOpen(false)}
+        onSessionEnd={handleSessionEnd}
+      />
       <IntentBar
         intent={result?.intent.primary ?? ""}
         variant={result?.intent.variant ?? null}

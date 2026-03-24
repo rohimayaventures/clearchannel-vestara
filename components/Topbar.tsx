@@ -2,9 +2,11 @@ import Link from "next/link";
 
 interface TopbarProps {
   onDrawerOpen?: () => void;
+  realtimeActive?: boolean;
+  onRealtimeToggle?: () => void;
 }
 
-export default function Topbar({ onDrawerOpen }: TopbarProps) {
+export default function Topbar({ onDrawerOpen, realtimeActive, onRealtimeToggle }: TopbarProps) {
   return (
     <nav
       style={{
@@ -102,6 +104,41 @@ export default function Topbar({ onDrawerOpen }: TopbarProps) {
             {item.label}
           </Link>
         ))}
+
+        {/* Live Call toggle — always visible */}
+        <button
+          onClick={onRealtimeToggle}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "5px",
+            padding: "4px 9px",
+            background: realtimeActive ? "#DC2626" : "rgba(34,197,94,0.15)",
+            border: `1px solid ${realtimeActive ? "#DC2626" : "rgba(34,197,94,0.4)"}`,
+            borderRadius: "4px",
+            cursor: "pointer",
+            fontSize: "10px",
+            fontWeight: 700,
+            letterSpacing: "0.05em",
+            textTransform: "uppercase",
+            color: realtimeActive ? "#ffffff" : "#22C55E",
+            fontFamily: "var(--font-sans)",
+            flexShrink: 0,
+            transition: "background 0.3s ease, border-color 0.3s ease, color 0.3s ease",
+          }}
+        >
+          <div
+            style={{
+              width: "6px",
+              height: "6px",
+              borderRadius: "50%",
+              background: realtimeActive ? "#ffffff" : "#22C55E",
+              flexShrink: 0,
+              boxShadow: realtimeActive ? "none" : "0 0 0 2px rgba(34,197,94,0.3)",
+            }}
+          />
+          {realtimeActive ? "End Call" : "Live Call"}
+        </button>
 
         {/* Hamburger — visible on mobile only via .cc-hamburger class */}
         <button
