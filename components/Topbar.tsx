@@ -131,17 +131,18 @@ export default function Topbar({ onDrawerOpen, realtimeActive, onRealtimeToggle 
             transition: "background 0.3s ease, border-color 0.3s ease, color 0.3s ease",
           }}
         >
-          <div
-            style={{
-              width: "6px",
-              height: "6px",
-              borderRadius: "50%",
-              background: realtimeActive ? "#ffffff" : "#22C55E",
-              flexShrink: 0,
-              boxShadow: realtimeActive ? "none" : "0 0 0 2px rgba(34,197,94,0.3)",
-            }}
-          />
-          {realtimeActive ? "End Call" : "Live Call"}
+          {realtimeActive ? (
+            <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
+              <rect x="1.5" y="1.5" width="6" height="6" rx="1" fill="#ffffff" />
+            </svg>
+          ) : (
+            <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
+              <rect x="3" y="0.5" width="3" height="4.5" rx="1.5" stroke="#22C55E" strokeWidth="1.1" />
+              <path d="M1.5 4.5a3 3 0 006 0" stroke="#22C55E" strokeWidth="1.1" strokeLinecap="round" />
+              <line x1="4.5" y1="7.5" x2="4.5" y2="6.5" stroke="#22C55E" strokeWidth="1.1" strokeLinecap="round" />
+            </svg>
+          )}
+          {realtimeActive ? "End Call" : "Call Vestara"}
         </button>
 
         {/* Hamburger — visible on mobile only via .cc-hamburger class */}

@@ -365,7 +365,7 @@ export default function RealtimeSession({ isOpen, onClose, onSessionEnd }: Realt
               transition: "color 0.3s ease",
             }}
           >
-            {isConnecting ? "Connecting…" : isConnected ? "Live Call" : state.status === "error" ? "Session Error" : "Live Call Demo"}
+            {isConnecting ? "Connecting…" : isConnected ? "Live Call Active" : state.status === "error" ? "Session Error" : "Call Vestara — Live IVR Demo"}
           </span>
           {state.userSpeaking && (
             <span
@@ -385,6 +385,17 @@ export default function RealtimeSession({ isOpen, onClose, onSessionEnd }: Realt
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+          {!isActive && state.status !== "error" && (
+            <span
+              style={{
+                fontSize: "10px",
+                color: "var(--s-text-muted)",
+                fontFamily: "var(--font-sans)",
+              }}
+            >
+              Speak with Vestara · OpenAI Realtime API
+            </span>
+          )}
           {!isActive && state.status !== "error" && (
             <button
               onClick={startSession}

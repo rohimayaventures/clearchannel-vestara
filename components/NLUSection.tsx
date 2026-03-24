@@ -5,6 +5,8 @@ import { AnalysisResult } from "@/lib/types";
 interface NLUSectionProps {
   result: AnalysisResult | null;
   isLoading: boolean;
+  isExpanded: boolean;
+  onToggle: () => void;
 }
 
 function ColLabel({ children }: { children: React.ReactNode }) {
@@ -69,7 +71,7 @@ function SkeletonRow({ width = "100%" }: { width?: string }) {
   );
 }
 
-export default function NLUSection({ result, isLoading }: NLUSectionProps) {
+export default function NLUSection({ result, isLoading, isExpanded, onToggle }: NLUSectionProps) {
   return (
     <div
       id="nlu"
@@ -77,28 +79,65 @@ export default function NLUSection({ result, isLoading }: NLUSectionProps) {
         background: "var(--s-surface)",
         border: "1px solid var(--s-border)",
         borderRadius: "8px",
-        padding: "12px 14px",
         transition: "all 0.4s ease",
       }}
     >
-      <div
+      <button
+        onClick={onToggle}
         style={{
-          fontSize: "9.5px",
-          fontWeight: 700,
-          color: "var(--s-text-muted)",
-          textTransform: "uppercase",
-          letterSpacing: "0.1em",
-          marginBottom: "11px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: "100%",
+          padding: "11px 14px",
+          background: "transparent",
+          border: "none",
+          cursor: "pointer",
+          borderBottom: isExpanded ? "1px solid var(--s-border)" : "none",
+          transition: "border-color 0.3s ease",
         }}
       >
-        NLU Architecture
-        {result && (
-          <span style={{ color: "var(--s-text)", marginLeft: "6px" }}>
-            — {result.intent.primary}
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <span
+            style={{
+              fontSize: "9.5px",
+              fontWeight: 700,
+              color: "var(--s-text-muted)",
+              textTransform: "uppercase",
+              letterSpacing: "0.1em",
+            }}
+          >
+            NLU Architecture
           </span>
-        )}
-      </div>
+          {result && (
+            <span style={{ fontSize: "9.5px", color: "var(--s-accent-text)", fontFamily: "var(--font-mono)", fontWeight: 700 }}>
+              {result.intent.primary}
+            </span>
+          )}
+        </div>
+        <svg
+          width="10"
+          height="10"
+          viewBox="0 0 10 10"
+          fill="none"
+          style={{
+            transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)",
+            transition: "transform 0.25s ease",
+            flexShrink: 0,
+          }}
+        >
+          <path
+            d="M2 3.5L5 6.5L8 3.5"
+            stroke="var(--s-text-muted)"
+            strokeWidth="1.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
 
+      {isExpanded && (
+      <div style={{ padding: "12px 14px" }}>
       <div className="cc-nlu-scroll-outer">
         <div className="cc-nlu-scroll">
           <div className="cc-nlu-grid">
@@ -191,6 +230,8 @@ export default function NLUSection({ result, isLoading }: NLUSectionProps) {
           </div>
         </div>
       </div>
+      </div>
+    )}
     </div>
   );
 }

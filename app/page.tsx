@@ -20,6 +20,7 @@ export default function Home() {
   const [sidebarDrawerOpen, setSidebarDrawerOpen] = useState(false);
   const [shouldAutoPlay, setShouldAutoPlay] = useState(false);
   const [realtimeOpen, setRealtimeOpen] = useState(false);
+  const [nluExpanded, setNluExpanded] = useState(false);
   const voiceTriggered = useRef(false);
 
   const sentiment = result?.intent.sentiment ?? "neutral";
@@ -180,7 +181,7 @@ export default function Home() {
               <ChannelPanel channel="agent_assist" result={result} isLoading={isLoading} />
             </div>
           </div>
-          <NLUSection result={result} isLoading={isLoading} />
+          <NLUSection result={result} isLoading={isLoading} isExpanded={nluExpanded} onToggle={() => setNluExpanded((v) => !v)} />
         </main>
       </div>
     </div>

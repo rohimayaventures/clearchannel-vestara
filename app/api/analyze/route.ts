@@ -184,25 +184,48 @@ Return this exact JSON structure with no additional text:
   }
 }`;
 
+const MAX_UTTERANCE_LENGTH = 500;
+
 export async function POST(request: NextRequest) {
+  if (!process.env.ANTHROPIC_API_KEY) {
+    return NextResponse.json({ error: "Service unavailable" }, { status: 503 });
+  }
+
+  let body: unknown;
   try {
-    const { utterance } = await request.json();
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+  }
 
-    if (!utterance || typeof utterance !== "string") {
-      return NextResponse.json(
-        { error: "Utterance is required" },
-        { status: 400 }
-      );
-    }
+  if (!body || typeof body !== "object" || !("utterance" in body)) {
+    return NextResponse.json({ error: "utterance is required" }, { status: 400 });
+  }
 
+  const { utterance } = body as { utterance: unknown };
+
+  if (typeof utterance !== "string" || utterance.trim().length === 0) {
+    return NextResponse.json({ error: "utterance must be a non-empty string" }, { status: 400 });
+  }
+
+  if (utterance.length > MAX_UTTERANCE_LENGTH) {
+    return NextResponse.json(
+      { error: `utterance must be ${MAX_UTTERANCE_LENGTH} characters or fewer` },
+      { status: 400 }
+    );
+  }
+
+  const safe = utterance.trim();
+
+  try {
     const message = await client.messages.create({
       model: "claude-sonnet-4-6",
-      max_tokens: 1500,
+      max_tokens: 2048,
       system: SYSTEM_PROMPT,
       messages: [
         {
           role: "user",
-          content: `Analyze this investor utterance and return the JSON: "${utterance}"`,
+          content: `Analyze this investor utterance and return the JSON: "${safe}"`,
         },
       ],
     });
@@ -217,14 +240,17 @@ export async function POST(request: NextRequest) {
       .replace(/```/g, "")
       .trim();
 
-    const parsed = JSON.parse(cleaned);
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(cleaned);
+    } catch {
+      console.error("JSON parse failed. Raw response:", cleaned);
+      return NextResponse.json({ error: "Analysis returned malformed data" }, { status: 500 });
+    }
 
     return NextResponse.json(parsed);
   } catch (error) {
     console.error("Analysis error:", error);
-    return NextResponse.json(
-      { error: "Analysis failed" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Analysis failed" }, { status: 500 });
   }
 }
