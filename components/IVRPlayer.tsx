@@ -6,6 +6,11 @@ interface IVRPlayerProps {
   text: string;
 }
 
+/**
+ * Compact play button for the IVR panel header.
+ * Three states: idle (filled accent), loading (dimmed spinner),
+ * playing (pause icon + gentle pulse animation).
+ */
 export default function IVRPlayer({ text }: IVRPlayerProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -66,63 +71,55 @@ export default function IVRPlayer({ text }: IVRPlayerProps) {
     }
   };
 
-  const getLabel = () => {
-    if (isLoading) return "Loading audio...";
-    if (isPlaying) return "Playing IVR response...";
-    return "Play IVR response";
-  };
-
-  const getBorderColor = () => {
-    if (isPlaying) return "var(--s-accent)";
-    return "var(--s-border)";
-  };
-
   return (
     <button
       onClick={handlePlay}
       disabled={isLoading || isPlaying}
+      className={isPlaying ? "ivr-playing" : ""}
       style={{
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
-        gap: "6px",
-        width: "100%",
-        marginTop: "8px",
-        background: "var(--s-surface-2)",
-        color: isPlaying ? "var(--s-accent-text)" : "var(--s-text-2)",
-        border: `1px solid ${getBorderColor()}`,
-        borderRadius: "5px",
-        padding: "7px 0",
-        fontSize: "12px",
-        fontWeight: 600,
+        gap: "5px",
+        padding: "4px 9px",
+        background: "var(--s-accent)",
+        color: "#ffffff",
+        border: "none",
+        borderRadius: "4px",
+        fontSize: "10px",
+        fontWeight: 700,
+        letterSpacing: "0.04em",
+        textTransform: "uppercase",
         cursor: isLoading || isPlaying ? "not-allowed" : "pointer",
-        opacity: isLoading ? 0.6 : 1,
+        flexShrink: 0,
         fontFamily: "var(--font-sans)",
-        transition: "all 0.4s ease",
+        transition: "background 0.4s ease, opacity 0.2s ease",
+        opacity: isLoading ? 0.65 : 1,
       }}
     >
       {isPlaying ? (
-        <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
-          <rect x="1.5" y="1.5" width="3" height="8"
-            rx="1" fill="var(--s-accent)" />
-          <rect x="6.5" y="1.5" width="3" height="8"
-            rx="1" fill="var(--s-accent)" />
+        /* Pause bars */
+        <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
+          <rect x="1" y="1" width="2.5" height="7" rx="0.75" fill="#ffffff" />
+          <rect x="5.5" y="1" width="2.5" height="7" rx="0.75" fill="#ffffff" />
         </svg>
       ) : isLoading ? (
-        <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
-          <circle cx="5.5" cy="5.5" r="4"
-            stroke="var(--s-text-muted)"
-            strokeWidth="1.2"
-            strokeDasharray="6 6"
-            strokeLinecap="round" />
+        /* Spinning ring */
+        <svg
+          width="9" height="9" viewBox="0 0 9 9" fill="none"
+          style={{ animation: "ivr-pulse 0.8s ease-in-out infinite" }}
+        >
+          <circle cx="4.5" cy="4.5" r="3.5"
+            stroke="rgba(255,255,255,0.5)" strokeWidth="1.2" />
+          <path d="M4.5 1A3.5 3.5 0 018 4.5"
+            stroke="#ffffff" strokeWidth="1.2" strokeLinecap="round" />
         </svg>
       ) : (
-        <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
-          <path d="M2 2l7 3.5L2 9V2z"
-            fill="var(--s-text-muted)" />
+        /* Play triangle */
+        <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
+          <path d="M1.5 1.5l6 3-6 3V1.5z" fill="#ffffff" />
         </svg>
       )}
-      {getLabel()}
+      {isPlaying ? "Playing" : isLoading ? "Loading" : "Play IVR"}
     </button>
   );
 }

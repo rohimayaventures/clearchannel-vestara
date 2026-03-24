@@ -112,7 +112,6 @@ function IVRBody({ data }: { data: AnalysisResult["ivr"] }) {
             ),
           }}
         />
-        <IVRPlayer text={data.spoken_response} />
       </div>
       <Divider />
       <div>
@@ -409,31 +408,37 @@ export default function ChannelPanel({
             </div>
           </div>
         </div>
-        {isLoading || !badgeText ? (
-          <div
-            className="skeleton"
-            style={{
-              width: "64px",
-              height: "18px",
-              background: "var(--s-surface-2)",
-              borderRadius: "3px",
-            }}
-          />
-        ) : (
-          <span
-            style={{
-              fontSize: "9.5px",
-              fontWeight: 600,
-              padding: "2px 7px",
-              borderRadius: "3px",
-              background: "var(--s-accent-light)",
-              color: "var(--s-accent-text)",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {badgeText}
-          </span>
-        )}
+        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+          {/* IVR play button lives in the header as the primary audio action */}
+          {channel === "ivr" && !isLoading && result?.ivr.spoken_response && (
+            <IVRPlayer text={result.ivr.spoken_response} />
+          )}
+          {isLoading || !badgeText ? (
+            <div
+              className="skeleton"
+              style={{
+                width: "64px",
+                height: "18px",
+                background: "var(--s-surface-2)",
+                borderRadius: "3px",
+              }}
+            />
+          ) : (
+            <span
+              style={{
+                fontSize: "9.5px",
+                fontWeight: 600,
+                padding: "2px 7px",
+                borderRadius: "3px",
+                background: "var(--s-accent-light)",
+                color: "var(--s-accent-text)",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {badgeText}
+            </span>
+          )}
+        </div>
       </div>
 
       <div
