@@ -88,7 +88,7 @@ export default function RealtimeSession({ isOpen, onClose, onSessionEnd }: Realt
   const processorRef = useRef<ScriptProcessorNode | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const playbackCtxRef = useRef<AudioContext | null>(null);
-  const audioChunksRef = useRef<string[]>([]);
+  const audioChunksRef = useRef<Uint8Array[]>([]);
   const lastUserUtteranceRef = useRef<string>("");
   const transcriptEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -141,17 +141,20 @@ export default function RealtimeSession({ isOpen, onClose, onSessionEnd }: Realt
   const playAccumulatedAudio = useCallback(async () => {
     if (audioChunksRef.current.length === 0) return;
 
-    // Combine all base64 chunks into one ArrayBuffer
-    const combined = audioChunksRef.current.join("");
+    // Merge raw byte arrays — avoids base64 padding corruption from chunk concatenation
+    const chunks = audioChunksRef.current;
     audioChunksRef.current = [];
-    const pcmBuffer = fromBase64(combined);
+    const totalLength = chunks.reduce((n, c) => n + c.length, 0);
+    const merged = new Uint8Array(totalLength);
+    let offset = 0;
+    for (const chunk of chunks) { merged.set(chunk, offset); offset += chunk.length; }
 
     try {
       const ctx = new AudioContext({ sampleRate: 24000 });
       playbackCtxRef.current = ctx;
 
       // PCM16 → Float32 for Web Audio API
-      const int16 = new Int16Array(pcmBuffer);
+      const int16 = new Int16Array(merged.buffer);
       const float32 = new Float32Array(int16.length);
       for (let i = 0; i < int16.length; i++) {
         float32[i] = int16[i] / (int16[i] < 0 ? 0x8000 : 0x7fff);
@@ -266,7 +269,7 @@ export default function RealtimeSession({ isOpen, onClose, onSessionEnd }: Realt
 
           case "response.audio.delta": {
             const delta = msg.delta as string;
-            if (delta) audioChunksRef.current.push(delta);
+            if (delta) audioChunksRef.current.push(new Uint8Array(fromBase64(delta)));
             break;
           }
 
