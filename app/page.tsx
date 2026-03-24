@@ -9,12 +9,13 @@ import IntentBar from "@/components/IntentBar";
 import AutoIVRPlayer from "@/components/AutoIVRPlayer";
 import RealtimeSession from "@/components/RealtimeSession";
 import { AnalysisResult, SAMPLE_UTTERANCES } from "@/lib/types";
+import { SEED_RESULT } from "@/lib/seedResult";
 
 
 export default function Home() {
   const [utterance, setUtterance] = useState<string>(SAMPLE_UTTERANCES[0]);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [result, setResult] = useState<AnalysisResult | null>(null);
+  const [result, setResult] = useState<AnalysisResult | null>(SEED_RESULT);
   const [isLoading, setIsLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarDrawerOpen, setSidebarDrawerOpen] = useState(false);
@@ -54,10 +55,6 @@ export default function Home() {
       setIsLoading(false);
     }
   }, []);
-
-  useEffect(() => {
-    analyze(SAMPLE_UTTERANCES[0]);
-  }, [analyze]);
 
   const analyzeFromVoice = useCallback((text: string) => {
     voiceTriggered.current = true;
