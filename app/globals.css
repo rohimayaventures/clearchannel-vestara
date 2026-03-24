@@ -227,6 +227,17 @@ body {
    Mobile (<1024px): sidebar becomes a fixed drawer, panels stack.
    ============================================================ */
 
+/* --- Realtime session transcript --- */
+.cc-rt-transcript {
+  max-height: 160px;
+  overflow-y: auto;
+  border-top: 1px solid var(--s-border);
+  padding: 8px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
 /* --- Topbar elements hidden on mobile --- */
 .cc-topbar-subtitle {
   display: flex;
@@ -454,6 +465,11 @@ body {
 }
 
 @media (max-width: 767px) {
+  /* Shorter transcript on small screens to preserve space for channel panels */
+  .cc-rt-transcript {
+    max-height: 80px;
+  }
+
   /* Truncate intent name with ellipsis */
   .cc-intent-name {
     max-width: 58vw;

@@ -482,17 +482,7 @@ export default function RealtimeSession({ isOpen, onClose, onSessionEnd }: Realt
 
       {/* Transcript — only rendered when session has turns */}
       {state.turns.length > 0 && (
-        <div
-          style={{
-            maxHeight: "160px",
-            overflowY: "auto",
-            borderTop: "1px solid var(--s-border)",
-            padding: "8px 14px",
-            display: "flex",
-            flexDirection: "column",
-            gap: "5px",
-          }}
-        >
+        <div className="cc-rt-transcript">
           {state.turns.map((turn, i) => (
             <div key={i} style={{ display: "flex", gap: "7px", alignItems: "flex-start" }}>
               <span
