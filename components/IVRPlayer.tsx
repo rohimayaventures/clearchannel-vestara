@@ -34,6 +34,13 @@ export default function IVRPlayer({ text }: IVRPlayerProps) {
     if (isLoading || isPlaying) return;
     setIsLoading(true);
 
+    // Create and resume AudioContext synchronously inside the tap gesture.
+    // iOS Safari drops the user-gesture token on the first await, so this
+    // must happen before any async work or the browser silently blocks audio.
+    const audioContext = new AudioContext();
+    audioContextRef.current = audioContext;
+    await audioContext.resume();
+
     try {
       const res = await fetch("/api/speak", {
         method: "POST",
@@ -44,8 +51,6 @@ export default function IVRPlayer({ text }: IVRPlayerProps) {
       if (!res.ok) throw new Error("Speech failed");
 
       const arrayBuffer = await res.arrayBuffer();
-      const audioContext = new AudioContext();
-      audioContextRef.current = audioContext;
 
       const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
       const source = audioContext.createBufferSource();
