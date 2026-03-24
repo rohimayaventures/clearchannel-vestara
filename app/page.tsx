@@ -15,6 +15,7 @@ export default function Home() {
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarDrawerOpen, setSidebarDrawerOpen] = useState(false);
 
   const sentiment = result?.intent.sentiment ?? "neutral";
 
@@ -44,6 +45,7 @@ export default function Home() {
   const handleSampleClick = (index: number, value: string) => {
     setActiveIndex(index);
     setUtterance(value);
+    setSidebarDrawerOpen(false); // auto-close drawer on mobile
     analyze(value);
   };
 
@@ -63,7 +65,7 @@ export default function Home() {
         transition: "all 0.5s ease",
       }}
     >
-      <Topbar />
+      <Topbar onDrawerOpen={() => setSidebarDrawerOpen(true)} />
       <IntentBar
         intent={result?.intent.primary ?? ""}
         variant={result?.intent.variant ?? null}
@@ -73,18 +75,42 @@ export default function Home() {
       />
       <div style={{ display: "flex", flex: 1, overflow: "hidden", position: "relative" }}>
 
-        <Sidebar
-          utterance={utterance}
-          onUtteranceChange={setUtterance}
-          onAnalyze={handleAnalyze}
-          activeIndex={activeIndex}
-          onSampleClick={handleSampleClick}
-          intent={result?.intent.primary ?? ""}
-          confidence={result?.intent.confidence ?? 0}
-          isLoading={isLoading}
-          isOpen={sidebarOpen}
-          onToggle={() => setSidebarOpen(!sidebarOpen)}
+        {/* Mobile drawer overlay */}
+        <div
+          className={`cc-drawer-overlay${sidebarDrawerOpen ? " is-open" : ""}`}
+          onClick={() => setSidebarDrawerOpen(false)}
         />
+
+        {/* Sidebar — inline on desktop, fixed drawer on mobile */}
+        <div className={`cc-sidebar-container${sidebarDrawerOpen ? " is-open" : ""}`}>
+          <button
+            className="cc-drawer-close"
+            onClick={() => setSidebarDrawerOpen(false)}
+            aria-label="Close sidebar"
+          >
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+              <path
+                d="M1.5 1.5L8.5 8.5M8.5 1.5L1.5 8.5"
+                stroke="var(--s-text-muted)"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+              />
+            </svg>
+          </button>
+          <Sidebar
+            utterance={utterance}
+            onUtteranceChange={setUtterance}
+            onAnalyze={handleAnalyze}
+            activeIndex={activeIndex}
+            onSampleClick={handleSampleClick}
+            intent={result?.intent.primary ?? ""}
+            confidence={result?.intent.confidence ?? 0}
+            isLoading={isLoading}
+            isOpen={sidebarOpen}
+            onToggle={() => setSidebarOpen(!sidebarOpen)}
+            isMobileDrawer={sidebarDrawerOpen}
+          />
+        </div>
 
         <main
           style={{
@@ -96,28 +122,14 @@ export default function Home() {
             overflowY: "auto",
             background: "var(--s-bg)",
             transition: "all 0.4s ease",
+            minWidth: 0,
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              gap: "10px",
-              alignItems: "stretch",
-            }}
-          >
-            <div style={{ flex: "0 0 44%", minWidth: 0, display: "flex" }}>
+          <div className="cc-panels-row">
+            <div className="cc-panel-ivr">
               <ChannelPanel channel="ivr" result={result} isLoading={isLoading} />
             </div>
-            <div
-              style={{
-                flex: 1,
-                minWidth: 0,
-                display: "flex",
-                flexDirection: "column",
-                gap: "10px",
-              }}
-            >
+            <div className="cc-panel-right">
               <ChannelPanel channel="chatbot" result={result} isLoading={isLoading} />
               <ChannelPanel channel="agent_assist" result={result} isLoading={isLoading} />
             </div>

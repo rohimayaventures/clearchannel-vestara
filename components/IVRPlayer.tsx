@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 interface IVRPlayerProps {
   text: string;
@@ -9,6 +9,21 @@ interface IVRPlayerProps {
 export default function IVRPlayer({ text }: IVRPlayerProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const sourceRef = useRef<AudioBufferSourceNode | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (sourceRef.current) {
+        try { sourceRef.current.stop(); } catch { /* already stopped */ }
+        sourceRef.current = null;
+      }
+      if (audioContextRef.current) {
+        audioContextRef.current.close();
+        audioContextRef.current = null;
+      }
+    };
+  }, []);
 
   const handlePlay = async () => {
     if (isLoading || isPlaying) return;
@@ -25,8 +40,11 @@ export default function IVRPlayer({ text }: IVRPlayerProps) {
 
       const arrayBuffer = await res.arrayBuffer();
       const audioContext = new AudioContext();
+      audioContextRef.current = audioContext;
+
       const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
       const source = audioContext.createBufferSource();
+      sourceRef.current = source;
       source.buffer = audioBuffer;
       source.connect(audioContext.destination);
 
@@ -36,6 +54,8 @@ export default function IVRPlayer({ text }: IVRPlayerProps) {
       source.onended = () => {
         setIsPlaying(false);
         audioContext.close();
+        audioContextRef.current = null;
+        sourceRef.current = null;
       };
 
       source.start(0);
@@ -69,9 +89,7 @@ export default function IVRPlayer({ text }: IVRPlayerProps) {
         width: "100%",
         marginTop: "8px",
         background: "var(--s-surface-2)",
-        color: isPlaying
-          ? "var(--s-accent)"
-          : "var(--s-text-2)",
+        color: isPlaying ? "var(--s-accent-text)" : "var(--s-text-2)",
         border: `1px solid ${getBorderColor()}`,
         borderRadius: "5px",
         padding: "7px 0",

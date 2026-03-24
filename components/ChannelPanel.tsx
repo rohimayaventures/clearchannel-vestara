@@ -127,7 +127,7 @@ function IVRBody({ data }: { data: AnalysisResult["ivr"] }) {
                 borderRadius: "3px",
                 fontFamily: "var(--font-mono)",
                 background: "var(--s-accent-light)",
-                color: "var(--s-accent)",
+                color: "var(--s-accent-text)",
                 border: "1px solid var(--s-accent-border)",
               }}
             >
@@ -286,7 +286,7 @@ function AgentAssistBody({ data }: { data: AnalysisResult["agent_assist"] }) {
             width: "8px",
             height: "8px",
             borderRadius: "50%",
-            background: "#1B2E4B",
+            background: "var(--s-policy-dot)",
             marginTop: "3px",
             flexShrink: 0,
           }}
@@ -387,7 +387,7 @@ export default function ChannelPanel({
               alignItems: "center",
               justifyContent: "center",
               flexShrink: 0,
-              color: "var(--s-accent)",
+              color: "var(--s-accent-text)",
             }}
           >
             {config.icon}
@@ -427,7 +427,7 @@ export default function ChannelPanel({
               padding: "2px 7px",
               borderRadius: "3px",
               background: "var(--s-accent-light)",
-              color: "var(--s-accent)",
+              color: "var(--s-accent-text)",
               whiteSpace: "nowrap",
             }}
           >

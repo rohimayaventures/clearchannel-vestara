@@ -38,10 +38,8 @@ function MonoItem({
       style={{
         fontSize: "10.5px",
         fontFamily: "var(--font-mono)",
-        background: highlight
-          ? "var(--s-accent-light)"
-          : "var(--s-surface-2)",
-        color: highlight ? "var(--s-accent)" : "var(--s-text-2)",
+        background: highlight ? "var(--s-accent-light)" : "var(--s-surface-2)",
+        color: highlight ? "var(--s-accent-text)" : "var(--s-text-2)",
         padding: "3px 6px",
         borderRadius: "3px",
         marginBottom: "4px",
@@ -95,110 +93,103 @@ export default function NLUSection({ result, isLoading }: NLUSectionProps) {
       >
         NLU Architecture
         {result && (
-          <span
-            style={{
-              color: "var(--s-text)",
-              marginLeft: "6px",
-            }}
-          >
+          <span style={{ color: "var(--s-text)", marginLeft: "6px" }}>
             — {result.intent.primary}
           </span>
         )}
       </div>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4, minmax(0,1fr))",
-          gap: "10px",
-        }}
-      >
-        {isLoading || !result ? (
-          Array.from({ length: 4 }).map((_, col) => (
-            <div key={col}>
-              <SkeletonRow width="60%" />
-              <SkeletonRow />
-              <SkeletonRow />
-              <SkeletonRow width="80%" />
-            </div>
-          ))
-        ) : (
-          <>
-            <div>
-              <ColLabel>Intent</ColLabel>
-              {result.nlu.intents.map((i) => (
-                <MonoItem key={i} highlight>
-                  {i}
-                </MonoItem>
-              ))}
-            </div>
+      <div className="cc-nlu-scroll-outer">
+        <div className="cc-nlu-scroll">
+          <div className="cc-nlu-grid">
+            {isLoading || !result ? (
+              Array.from({ length: 4 }).map((_, col) => (
+                <div key={col}>
+                  <SkeletonRow width="60%" />
+                  <SkeletonRow />
+                  <SkeletonRow />
+                  <SkeletonRow width="80%" />
+                </div>
+              ))
+            ) : (
+              <>
+                <div>
+                  <ColLabel>Intent</ColLabel>
+                  {result.nlu.intents.map((i) => (
+                    <MonoItem key={i} highlight>
+                      {i}
+                    </MonoItem>
+                  ))}
+                </div>
 
-            <div>
-              <ColLabel>Entities</ColLabel>
-              {result.nlu.entities.map((e) => (
-                <MonoItem key={e}>{e}</MonoItem>
-              ))}
-            </div>
+                <div>
+                  <ColLabel>Entities</ColLabel>
+                  {result.nlu.entities.map((e) => (
+                    <MonoItem key={e}>{e}</MonoItem>
+                  ))}
+                </div>
 
-            <div>
-              <ColLabel>Training Phrases</ColLabel>
-              {result.nlu.training_phrases.map((p) => (
-                <MonoItem key={p}>&quot;{p}&quot;</MonoItem>
-              ))}
-            </div>
+                <div>
+                  <ColLabel>Training Phrases</ColLabel>
+                  {result.nlu.training_phrases.map((p) => (
+                    <MonoItem key={p}>&quot;{p}&quot;</MonoItem>
+                  ))}
+                </div>
 
-            <div>
-              <ColLabel>Confidence Threshold</ColLabel>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "7px",
-                  marginTop: "4px",
-                  marginBottom: "6px",
-                }}
-              >
-                <div
-                  style={{
-                    flex: 1,
-                    height: "3px",
-                    background: "var(--s-border)",
-                    borderRadius: "2px",
-                    overflow: "hidden",
-                  }}
-                >
+                <div>
+                  <ColLabel>Confidence Threshold</ColLabel>
                   <div
                     style={{
-                      height: "100%",
-                      background: "var(--s-text)",
-                      borderRadius: "2px",
-                      width: `${result.nlu.confidence_threshold * 100}%`,
-                      transition: "width 0.4s ease",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      marginTop: "4px",
+                      marginBottom: "6px",
                     }}
-                  />
+                  >
+                    <div
+                      style={{
+                        flex: 1,
+                        height: "3px",
+                        background: "var(--s-border)",
+                        borderRadius: "2px",
+                        overflow: "hidden",
+                      }}
+                    >
+                      <div
+                        style={{
+                          height: "100%",
+                          background: "var(--s-accent)",
+                          borderRadius: "2px",
+                          width: `${result.nlu.confidence_threshold * 100}%`,
+                          transition: "width 0.4s ease",
+                        }}
+                      />
+                    </div>
+                    <span
+                      style={{
+                        fontSize: "11px",
+                        fontWeight: 700,
+                        color: "var(--s-accent-text)",
+                      }}
+                    >
+                      {result.nlu.confidence_threshold.toFixed(2)}
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "9.5px",
+                      color: "var(--s-text-muted)",
+                      lineHeight: 1.4,
+                    }}
+                  >
+                    {result.nlu.threshold_note}
+                  </div>
                 </div>
-                <span
-                  style={{
-                    fontSize: "11px",
-                    fontWeight: 700,
-                    color: "var(--s-text)",
-                  }}
-                >
-                  {result.nlu.confidence_threshold.toFixed(2)}
-                </span>
-              </div>
-              <div
-                style={{
-                  fontSize: "9.5px",
-                  color: "var(--s-text-muted)",
-                  lineHeight: 1.4,
-                }}
-              >
-                {result.nlu.threshold_note}
-              </div>
-            </div>
-          </>
-        )}
+              </>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -15,26 +15,33 @@
   --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
 
-  /* Default semantic tokens (neutral) — inherited by body until page sets data-sentiment */
+  /* Semantic sentiment tokens — default: neutral */
   --s-bg: #F0F2F5;
+  --s-topbar: #1B2E4B;
+  --s-topbar-text: #ffffff;
+  --s-topbar-muted: rgba(255, 255, 255, 0.45);
+  --s-logo: #0891B2;
+  --s-intent-color: #1B2E4B;
+  --s-pill-bg: #F0F2F5;
+  --s-pill-text: #8A94A0;
+  --s-accent: #0891B2;
+  --s-accent-text: #0E6E8A;
+  --s-accent-light: #EBF7FA;
+  --s-accent-border: #BAE6F0;
+  --s-rt-bg: rgba(8, 145, 178, 0.2);
+  --s-rt-text: #BAE6F0;
+  --s-prosody: #0891B2;
+  --s-policy-dot: #1B2E4B;
+  /* Fixed across all sentiment states */
   --s-surface: #ffffff;
   --s-surface-2: #F4F5F7;
   --s-border: #E2E5EA;
-  --s-accent: #0891B2;
-  --s-accent-light: #EBF7FA;
-  --s-accent-border: #BAE6F0;
   --s-text: #1B2E4B;
   --s-text-2: #3D4F63;
   --s-text-muted: #8A94A0;
-  --s-topbar: #1B2E4B;
-  --s-logo: #0891B2;
-  --s-mono-tint: #F4F5F7;
+  /* Legacy aliases for component compatibility */
   --s-intent-bg: #ffffff;
-  --s-pill-bg: #F0F2F5;
-  --s-pill-text: #8A94A0;
-  --s-prosody: #0891B2;
-  --s-topbar-text: #ffffff;
-  --s-topbar-muted: rgba(255, 255, 255, 0.45);
+  --s-mono-tint: #EBF7FA;
 }
 
 * {
@@ -51,114 +58,147 @@ body {
   line-height: 1.5;
 }
 
+/* ============================================================
+   SENTIMENT TOKENS
+   Topbar + logo + accent system + bg tint shift per state.
+   Surface, border, and body text tokens stay fixed (never shift).
+   Color transitions are driven by 0.5s ease on the root wrapper
+   and per-component transition declarations.
+   ============================================================ */
+
 [data-sentiment="neutral"] {
   --s-bg: #F0F2F5;
+  --s-topbar: #1B2E4B;
+  --s-topbar-text: #ffffff;
+  --s-topbar-muted: rgba(255, 255, 255, 0.45);
+  --s-logo: #0891B2;
+  --s-intent-color: #1B2E4B;
+  --s-pill-bg: #F0F2F5;
+  --s-pill-text: #8A94A0;
+  --s-accent: #0891B2;
+  --s-accent-text: #0E6E8A;
+  --s-accent-light: #EBF7FA;
+  --s-accent-border: #BAE6F0;
+  --s-rt-bg: rgba(8, 145, 178, 0.2);
+  --s-rt-text: #BAE6F0;
+  --s-prosody: #0891B2;
+  --s-policy-dot: #1B2E4B;
   --s-surface: #ffffff;
   --s-surface-2: #F4F5F7;
   --s-border: #E2E5EA;
-  --s-accent: #0891B2;
-  --s-accent-light: #EBF7FA;
-  --s-accent-border: #BAE6F0;
   --s-text: #1B2E4B;
   --s-text-2: #3D4F63;
   --s-text-muted: #8A94A0;
-  --s-topbar: #1B2E4B;
-  --s-logo: #0891B2;
-  --s-mono-tint: #F4F5F7;
   --s-intent-bg: #ffffff;
-  --s-pill-bg: #F0F2F5;
-  --s-pill-text: #8A94A0;
-  --s-prosody: #0891B2;
-  --s-topbar-text: #ffffff;
-  --s-topbar-muted: rgba(255, 255, 255, 0.45);
+  --s-mono-tint: #EBF7FA;
 }
 
 [data-sentiment="concerned"] {
-  --s-bg: #1C1408;
-  --s-surface: #221A09;
-  --s-surface-2: #2A2010;
-  --s-border: rgba(245,158,11,0.25);
-  --s-accent: #F59E0B;
-  --s-accent-light: rgba(245,158,11,0.15);
-  --s-accent-border: rgba(245,158,11,0.3);
-  --s-text: #FEF3C7;
-  --s-text-2: #FDE68A;
-  --s-text-muted: #D97706;
-  --s-topbar: #140F05;
-  --s-logo: #F59E0B;
-  --s-mono-tint: rgba(245,158,11,0.1);
-  --s-intent-bg: #221A09;
-  --s-pill-bg: rgba(245,158,11,0.2);
-  --s-pill-text: #FEF3C7;
-  --s-prosody: #F59E0B;
-  --s-topbar-text: var(--s-text);
-  --s-topbar-muted: var(--s-text-muted);
+  --s-bg: #FDF7EE;
+  --s-topbar: #2A1F0A;
+  --s-topbar-text: #ffffff;
+  --s-topbar-muted: rgba(255, 255, 255, 0.45);
+  --s-logo: #D97706;
+  --s-intent-color: #92400E;
+  --s-pill-bg: #FEF3C7;
+  --s-pill-text: #92400E;
+  --s-accent: #D97706;
+  --s-accent-text: #92400E;
+  --s-accent-light: #FEF3C7;
+  --s-accent-border: #FCD34D;
+  --s-rt-bg: rgba(217, 119, 6, 0.2);
+  --s-rt-text: #FCD34D;
+  --s-prosody: #D97706;
+  --s-policy-dot: #D97706;
+  --s-surface: #ffffff;
+  --s-surface-2: #F4F5F7;
+  --s-border: #E2E5EA;
+  --s-text: #1B2E4B;
+  --s-text-2: #3D4F63;
+  --s-text-muted: #8A94A0;
+  --s-intent-bg: #ffffff;
+  --s-mono-tint: #FEF3C7;
 }
 
 [data-sentiment="distressed"] {
-  --s-bg: #1A1128;
-  --s-surface: #1E1530;
-  --s-surface-2: #251B3A;
-  --s-border: rgba(124,58,237,0.25);
-  --s-accent: #7C3AED;
-  --s-accent-light: rgba(124,58,237,0.2);
-  --s-accent-border: rgba(124,58,237,0.4);
-  --s-text: #EDE9FE;
-  --s-text-2: #C4B5FD;
-  --s-text-muted: #A78BFA;
-  --s-topbar: #120D1E;
+  --s-bg: #F5F3FF;
+  --s-topbar: #2D1F5E;
+  --s-topbar-text: #ffffff;
+  --s-topbar-muted: rgba(255, 255, 255, 0.45);
   --s-logo: #7C3AED;
-  --s-mono-tint: rgba(124,58,237,0.1);
-  --s-intent-bg: #1E1530;
-  --s-pill-bg: rgba(124,58,237,0.2);
-  --s-pill-text: #DDD6FE;
-  --s-prosody: #A78BFA;
-  --s-topbar-text: var(--s-text);
-  --s-topbar-muted: var(--s-text-muted);
+  --s-intent-color: #5B21B6;
+  --s-pill-bg: #EDE9FE;
+  --s-pill-text: #5B21B6;
+  --s-accent: #7C3AED;
+  --s-accent-text: #5B21B6;
+  --s-accent-light: #EDE9FE;
+  --s-accent-border: #C4B5FD;
+  --s-rt-bg: rgba(124, 58, 237, 0.2);
+  --s-rt-text: #C4B5FD;
+  --s-prosody: #7C3AED;
+  --s-policy-dot: #7C3AED;
+  --s-surface: #ffffff;
+  --s-surface-2: #F4F5F7;
+  --s-border: #E2E5EA;
+  --s-text: #1B2E4B;
+  --s-text-2: #3D4F63;
+  --s-text-muted: #8A94A0;
+  --s-intent-bg: #ffffff;
+  --s-mono-tint: #EDE9FE;
 }
 
 [data-sentiment="urgent"] {
-  --s-bg: #1C0A0A;
-  --s-surface: #1F0D0D;
-  --s-surface-2: #2A1010;
-  --s-border: rgba(220,38,38,0.25);
-  --s-accent: #DC2626;
-  --s-accent-light: rgba(220,38,38,0.15);
-  --s-accent-border: rgba(220,38,38,0.3);
-  --s-text: #FEE2E2;
-  --s-text-2: #FCA5A5;
-  --s-text-muted: #F87171;
-  --s-topbar: #140606;
+  --s-bg: #FFF5F5;
+  --s-topbar: #3B0A0A;
+  --s-topbar-text: #ffffff;
+  --s-topbar-muted: rgba(255, 255, 255, 0.45);
   --s-logo: #DC2626;
-  --s-mono-tint: rgba(220,38,38,0.1);
-  --s-intent-bg: #1F0D0D;
-  --s-pill-bg: rgba(220,38,38,0.2);
-  --s-pill-text: #FEE2E2;
+  --s-intent-color: #991B1B;
+  --s-pill-bg: #FEE2E2;
+  --s-pill-text: #991B1B;
+  --s-accent: #DC2626;
+  --s-accent-text: #991B1B;
+  --s-accent-light: #FEE2E2;
+  --s-accent-border: #FCA5A5;
+  --s-rt-bg: rgba(220, 38, 38, 0.2);
+  --s-rt-text: #FCA5A5;
   --s-prosody: #DC2626;
-  --s-topbar-text: var(--s-text);
-  --s-topbar-muted: var(--s-text-muted);
+  --s-policy-dot: #DC2626;
+  --s-surface: #ffffff;
+  --s-surface-2: #F4F5F7;
+  --s-border: #E2E5EA;
+  --s-text: #1B2E4B;
+  --s-text-2: #3D4F63;
+  --s-text-muted: #8A94A0;
+  --s-intent-bg: #ffffff;
+  --s-mono-tint: #FEE2E2;
 }
 
 [data-sentiment="confused"] {
-  --s-bg: #0D1520;
-  --s-surface: #111C2B;
-  --s-surface-2: #162234;
-  --s-border: rgba(96,165,250,0.25);
-  --s-accent: #3B82F6;
-  --s-accent-light: rgba(59,130,246,0.15);
-  --s-accent-border: rgba(59,130,246,0.3);
-  --s-text: #DBEAFE;
-  --s-text-2: #93C5FD;
-  --s-text-muted: #60A5FA;
-  --s-topbar: #080F18;
+  --s-bg: #F0F6FF;
+  --s-topbar: #0F1E35;
+  --s-topbar-text: #ffffff;
+  --s-topbar-muted: rgba(255, 255, 255, 0.45);
   --s-logo: #3B82F6;
-  --s-mono-tint: rgba(59,130,246,0.1);
-  --s-intent-bg: #111C2B;
-  --s-pill-bg: rgba(59,130,246,0.2);
-  --s-pill-text: #DBEAFE;
-  --s-prosody: #60A5FA;
-  --s-topbar-text: var(--s-text);
-  --s-topbar-muted: var(--s-text-muted);
+  --s-intent-color: #1D4ED8;
+  --s-pill-bg: #DBEAFE;
+  --s-pill-text: #1E40AF;
+  --s-accent: #3B82F6;
+  --s-accent-text: #1E40AF;
+  --s-accent-light: #DBEAFE;
+  --s-accent-border: #93C5FD;
+  --s-rt-bg: rgba(59, 130, 246, 0.2);
+  --s-rt-text: #93C5FD;
+  --s-prosody: #3B82F6;
+  --s-policy-dot: #3B82F6;
+  --s-surface: #ffffff;
+  --s-surface-2: #F4F5F7;
+  --s-border: #E2E5EA;
+  --s-text: #1B2E4B;
+  --s-text-2: #3D4F63;
+  --s-text-muted: #8A94A0;
+  --s-intent-bg: #ffffff;
+  --s-mono-tint: #DBEAFE;
 }
 
 @keyframes shimmer {
@@ -170,4 +210,239 @@ body {
 .skeleton {
   animation: shimmer 1.2s ease-in-out infinite !important;
   background: var(--s-surface-2) !important;
+}
+
+/* ============================================================
+   MOBILE LAYOUT — hamburger, drawer, panels, NLU scroll
+   Desktop (≥1024px): all layout classes are transparent pass-throughs.
+   Mobile (<1024px): sidebar becomes a fixed drawer, panels stack.
+   ============================================================ */
+
+/* --- Hamburger button (mobile-only) --- */
+.cc-hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--s-accent-light);
+  border: 1px solid var(--s-accent-border);
+  border-radius: 5px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+/* --- Drawer overlay backdrop --- */
+.cc-drawer-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 40;
+}
+
+.cc-drawer-overlay.is-open {
+  display: block;
+}
+
+/* --- X close button inside drawer --- */
+.cc-drawer-close {
+  display: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  background: var(--s-surface-2);
+  border: 1px solid var(--s-border);
+  border-radius: 5px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+  flex-shrink: 0;
+}
+
+/* --- Sidebar wrapper (transparent on desktop, drawer on mobile) --- */
+.cc-sidebar-container {
+  /* Desktop: no special positioning, behaves as flex child */
+  flex-shrink: 0;
+}
+
+/* --- Channel panels row --- */
+.cc-panels-row {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.cc-panel-ivr {
+  flex: 0 0 44%;
+  min-width: 0;
+  display: flex;
+}
+
+.cc-panel-right {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* --- NLU scroll wrapper --- */
+.cc-nlu-scroll-outer {
+  position: relative;
+}
+
+.cc-nlu-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cc-nlu-scroll::-webkit-scrollbar {
+  height: 3px;
+}
+
+.cc-nlu-scroll::-webkit-scrollbar-track {
+  background: var(--s-surface-2);
+  border-radius: 2px;
+}
+
+.cc-nlu-scroll::-webkit-scrollbar-thumb {
+  background: var(--s-border);
+  border-radius: 2px;
+}
+
+.cc-nlu-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+/* --- IntentBar intent name --- */
+.cc-intent-name {
+  font-size: 20px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--s-intent-color);
+  line-height: 1.2;
+  transition: color 0.5s ease;
+}
+
+/* --- IntentBar layout containers --- */
+.cc-intent-bar-inner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.cc-intent-bar-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   RESPONSIVE BREAKPOINTS
+   ============================================================ */
+
+@media (max-width: 1023px) {
+  /* Show hamburger */
+  .cc-hamburger {
+    display: flex;
+  }
+
+  /* Sidebar becomes a fixed off-canvas drawer */
+  .cc-sidebar-container {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 50;
+    width: 85%;
+    max-width: 320px;
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+    overflow-y: auto;
+    background: var(--s-surface);
+  }
+
+  .cc-sidebar-container.is-open {
+    transform: translateX(0);
+  }
+
+  /* Show close button */
+  .cc-drawer-close {
+    display: flex;
+  }
+
+  /* Hide desktop collapse toggle inside drawer */
+  .cc-sidebar-container .cc-sidebar-toggle {
+    display: none;
+  }
+
+  /* Stack channel panels vertically */
+  .cc-panels-row {
+    flex-direction: column;
+  }
+
+  .cc-panel-ivr {
+    flex: none;
+    width: 100%;
+  }
+
+  .cc-panel-right {
+    width: 100%;
+  }
+
+  /* NLU right-edge scroll fade */
+  .cc-nlu-scroll-outer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 40px;
+    background: linear-gradient(to right, transparent, var(--s-surface));
+    pointer-events: none;
+  }
+
+  /* NLU grid: fixed column width to force horizontal scroll */
+  .cc-nlu-grid {
+    grid-template-columns: repeat(4, minmax(130px, 1fr));
+    min-width: 520px;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Truncate intent name with ellipsis */
+  .cc-intent-name {
+    max-width: 58vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 479px) {
+  /* Stack confidence below intent name on smallest screens */
+  .cc-intent-bar-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .cc-intent-bar-right {
+    align-items: flex-start;
+    width: 100%;
+  }
 }

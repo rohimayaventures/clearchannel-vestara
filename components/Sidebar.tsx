@@ -14,6 +14,7 @@ interface SidebarProps {
   isLoading: boolean;
   isOpen: boolean;
   onToggle: () => void;
+  isMobileDrawer?: boolean;
 }
 
 export default function Sidebar({
@@ -27,16 +28,19 @@ export default function Sidebar({
   isLoading,
   isOpen,
   onToggle,
+  isMobileDrawer = false,
 }: SidebarProps) {
   const handleTranscript = (text: string) => {
     onUtteranceChange(text);
     setTimeout(() => onAnalyze(), 100);
   };
 
+  const showContent = isMobileDrawer || isOpen;
+
   return (
     <div
       style={{
-        width: isOpen ? "210px" : "36px",
+        width: isMobileDrawer ? "100%" : (isOpen ? "210px" : "36px"),
         flexShrink: 0,
         background: "var(--s-surface)",
         borderRight: "1px solid var(--s-border)",
@@ -48,9 +52,11 @@ export default function Sidebar({
         position: "relative",
       }}
     >
+      {/* Desktop collapse toggle — hidden on mobile via .cc-sidebar-toggle class */}
       <button
         onClick={onToggle}
         title={isOpen ? "Collapse sidebar" : "Expand sidebar"}
+        className="cc-sidebar-toggle"
         style={{
           position: "absolute",
           top: "10px",
@@ -90,7 +96,7 @@ export default function Sidebar({
         </svg>
       </button>
 
-      {isOpen && (
+      {showContent && (
         <>
           <div
             style={{
@@ -170,7 +176,7 @@ export default function Sidebar({
               style={{
                 fontSize: "9px",
                 fontWeight: 700,
-                color: "var(--s-accent)",
+                color: "var(--s-accent-text)",
                 textTransform: "uppercase",
                 letterSpacing: "0.08em",
               }}
@@ -232,7 +238,7 @@ export default function Sidebar({
               style={{
                 fontSize: "10px",
                 fontWeight: 700,
-                color: "var(--s-accent)",
+                color: "var(--s-accent-text)",
                 flexShrink: 0,
               }}
             >
@@ -323,7 +329,7 @@ export default function Sidebar({
         </>
       )}
 
-      {!isOpen && (
+      {!showContent && (
         <div
           style={{
             flex: 1,
