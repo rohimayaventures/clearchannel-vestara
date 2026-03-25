@@ -10,7 +10,6 @@ import AutoIVRPlayer from "@/components/AutoIVRPlayer";
 import RealtimeSession from "@/components/RealtimeSession";
 import WelcomeModal from "@/components/WelcomeModal";
 import { AnalysisResult, SAMPLE_UTTERANCES } from "@/lib/types";
-import { SEED_RESULT } from "@/lib/seedResult";
 
 const SECTION_KEYS = ["intent", "ivr", "chatbot", "agent_assist", "nlu"] as const;
 
@@ -69,7 +68,7 @@ function extractCompleteSections(text: string): Partial<AnalysisResult> {
 export default function Home() {
   const [utterance, setUtterance] = useState<string>(SAMPLE_UTTERANCES[0]);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [result, setResult] = useState<AnalysisResult | null>(SEED_RESULT);
+  const [result, setResult] = useState<AnalysisResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarDrawerOpen, setSidebarDrawerOpen] = useState(false);
@@ -268,16 +267,86 @@ export default function Home() {
             minWidth: 0,
           }}
         >
-          <div className="cc-panels-row">
-            <div className="cc-panel-ivr">
-              <ChannelPanel channel="ivr" result={result} isLoading={isLoading} />
+          {!result && !isLoading ? (
+            <div className="cc-empty-hero">
+              <div className="cc-empty-inner">
+                <div
+                  style={{
+                    fontSize: "22px",
+                    fontWeight: 700,
+                    color: "var(--s-text)",
+                    fontFamily: "var(--font-sans)",
+                    lineHeight: 1.3,
+                    textAlign: "center",
+                  }}
+                >
+                  Choose a scenario or speak one out loud
+                </div>
+                <div
+                  style={{
+                    fontSize: "13px",
+                    color: "var(--s-text-muted)",
+                    fontFamily: "var(--font-sans)",
+                    lineHeight: 1.5,
+                    textAlign: "center",
+                    marginTop: "8px",
+                    maxWidth: "380px",
+                  }}
+                >
+                  Results stream across all three channels the moment you analyze
+                </div>
+                <div className="cc-empty-ctas">
+                  <button
+                    className="cc-empty-card"
+                    onClick={() => {
+                      setSidebarDrawerOpen(true);
+                      setSidebarOpen(true);
+                    }}
+                  >
+                    <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--s-text)" }}>
+                      Try a sample
+                    </div>
+                    <div style={{ fontSize: "11px", color: "var(--s-text-muted)", marginTop: "4px" }}>
+                      Pick a pre-loaded customer scenario
+                    </div>
+                    <svg
+                      width="14" height="14" viewBox="0 0 14 14" fill="none"
+                      style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)" }}
+                    >
+                      <path d="M5 3l4 4-4 4" stroke="var(--s-text-muted)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                  <button
+                    className="cc-empty-card cc-empty-card--live"
+                    onClick={() => setRealtimeOpen(true)}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                      <span className="cc-pulse-dot" />
+                      <span style={{ fontSize: "13px", fontWeight: 700, color: "#fff" }}>
+                        Start a live call
+                      </span>
+                    </div>
+                    <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.7)", marginTop: "4px" }}>
+                      Speak to the AI and watch it analyze in real time
+                    </div>
+                  </button>
+                </div>
+              </div>
             </div>
-            <div className="cc-panel-right">
-              <ChannelPanel channel="chatbot" result={result} isLoading={isLoading} />
-              <ChannelPanel channel="agent_assist" result={result} isLoading={isLoading} />
-            </div>
-          </div>
-          <NLUSection result={result} isLoading={isLoading} isExpanded={nluExpanded} onToggle={() => setNluExpanded((v) => !v)} />
+          ) : (
+            <>
+              <div className="cc-panels-row">
+                <div className="cc-panel-ivr">
+                  <ChannelPanel channel="ivr" result={result} isLoading={isLoading} />
+                </div>
+                <div className="cc-panel-right">
+                  <ChannelPanel channel="chatbot" result={result} isLoading={isLoading} />
+                  <ChannelPanel channel="agent_assist" result={result} isLoading={isLoading} />
+                </div>
+              </div>
+              <NLUSection result={result} isLoading={isLoading} isExpanded={nluExpanded} onToggle={() => setNluExpanded((v) => !v)} />
+            </>
+          )}
         </main>
       </div>
     </div>

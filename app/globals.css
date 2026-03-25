@@ -499,6 +499,96 @@ body {
   }
 }
 
+/* --- Empty-state hero --- */
+.cc-empty-hero {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.cc-empty-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 480px;
+  width: 100%;
+}
+
+.cc-empty-ctas {
+  display: flex;
+  gap: 12px;
+  margin-top: 28px;
+  width: 100%;
+}
+
+.cc-empty-card {
+  flex: 1;
+  position: relative;
+  background: var(--s-surface);
+  border: 1px solid var(--s-border);
+  border-radius: 10px;
+  padding: 16px 40px 16px 16px;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cc-empty-card:hover {
+  border-color: var(--s-accent);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.cc-empty-card--live {
+  background: #16A34A;
+  border-color: #16A34A;
+  padding: 16px;
+}
+
+.cc-empty-card--live:hover {
+  background: #15803D;
+  border-color: #15803D;
+  box-shadow: 0 2px 16px rgba(34, 197, 94, 0.3);
+}
+
+/* Topbar live-call pulse dot */
+.cc-topbar-pulse {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #22C55E;
+  flex-shrink: 0;
+  animation: cc-topbar-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes cc-topbar-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6); }
+  50% { box-shadow: 0 0 0 4px rgba(34, 197, 94, 0); }
+}
+
+/* White pulse dot on green card */
+.cc-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffffff;
+  flex-shrink: 0;
+  animation: cc-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes cc-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(255, 255, 255, 0); }
+}
+
+@media (max-width: 479px) {
+  .cc-empty-ctas {
+    flex-direction: column;
+  }
+}
+
 @media (max-width: 479px) {
   /* Stack confidence below intent name on smallest screens */
   .cc-intent-bar-inner {

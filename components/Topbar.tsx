@@ -112,23 +112,25 @@ export default function Topbar({ onDrawerOpen, realtimeActive, onRealtimeToggle 
         {/* Live Call toggle — always visible */}
         <button
           onClick={onRealtimeToggle}
+          title="Speak a live investor scenario and watch ClearChannel respond in real time"
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "5px",
-            padding: "4px 9px",
+            gap: "6px",
+            padding: "6px 14px",
             background: realtimeActive ? "#DC2626" : "rgba(34,197,94,0.15)",
-            border: `1px solid ${realtimeActive ? "#DC2626" : "rgba(34,197,94,0.4)"}`,
-            borderRadius: "4px",
+            border: `1px solid ${realtimeActive ? "#DC2626" : "rgba(34,197,94,0.5)"}`,
+            borderRadius: "5px",
             cursor: "pointer",
-            fontSize: "10px",
+            fontSize: "11px",
             fontWeight: 700,
             letterSpacing: "0.05em",
             textTransform: "uppercase",
             color: realtimeActive ? "#ffffff" : "#22C55E",
             fontFamily: "var(--font-sans)",
             flexShrink: 0,
-            transition: "background 0.3s ease, border-color 0.3s ease, color 0.3s ease",
+            boxShadow: realtimeActive ? "none" : "0 0 12px rgba(34,197,94,0.3)",
+            transition: "background 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease",
           }}
         >
           {realtimeActive ? (
@@ -136,13 +138,16 @@ export default function Topbar({ onDrawerOpen, realtimeActive, onRealtimeToggle 
               <rect x="1.5" y="1.5" width="6" height="6" rx="1" fill="#ffffff" />
             </svg>
           ) : (
-            <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
-              <rect x="3" y="0.5" width="3" height="4.5" rx="1.5" stroke="#22C55E" strokeWidth="1.1" />
-              <path d="M1.5 4.5a3 3 0 006 0" stroke="#22C55E" strokeWidth="1.1" strokeLinecap="round" />
-              <line x1="4.5" y1="7.5" x2="4.5" y2="6.5" stroke="#22C55E" strokeWidth="1.1" strokeLinecap="round" />
-            </svg>
+            <>
+              <span className="cc-topbar-pulse" />
+              <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
+                <rect x="3" y="0.5" width="3" height="4.5" rx="1.5" stroke="#22C55E" strokeWidth="1.1" />
+                <path d="M1.5 4.5a3 3 0 006 0" stroke="#22C55E" strokeWidth="1.1" strokeLinecap="round" />
+                <line x1="4.5" y1="7.5" x2="4.5" y2="6.5" stroke="#22C55E" strokeWidth="1.1" strokeLinecap="round" />
+              </svg>
+            </>
           )}
-          {realtimeActive ? "End Call" : "Call Vestara"}
+          {realtimeActive ? "End Call" : "Live Call"}
         </button>
 
         {/* Hamburger — visible on mobile only via .cc-hamburger class */}
