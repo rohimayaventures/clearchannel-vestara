@@ -325,12 +325,14 @@ export default function RealtimeSession({ isOpen, onClose, onSessionEnd }: Realt
     >
       {/* Header row */}
       <div
+        className="cc-rt-header"
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
           padding: "8px 14px",
           gap: "10px",
+          flexWrap: "wrap",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -370,7 +372,7 @@ export default function RealtimeSession({ isOpen, onClose, onSessionEnd }: Realt
           {state.userSpeaking && (
             <span
               style={{
-                fontSize: "9px",
+                fontSize: "10px",
                 fontWeight: 600,
                 color: "#DC2626",
                 letterSpacing: "0.06em",
@@ -387,8 +389,9 @@ export default function RealtimeSession({ isOpen, onClose, onSessionEnd }: Realt
         <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
           {!isActive && state.status !== "error" && (
             <span
+              className="cc-rt-subtitle"
               style={{
-                fontSize: "10px",
+                fontSize: "11px",
                 color: "var(--s-text-muted)",
                 fontFamily: "var(--font-sans)",
               }}
@@ -403,12 +406,13 @@ export default function RealtimeSession({ isOpen, onClose, onSessionEnd }: Realt
                 display: "flex",
                 alignItems: "center",
                 gap: "5px",
-                padding: "4px 10px",
+                padding: "8px 14px",
+                minHeight: "44px",
                 background: "var(--s-accent)",
                 color: "#ffffff",
                 border: "none",
                 borderRadius: "4px",
-                fontSize: "10px",
+                fontSize: "11px",
                 fontWeight: 700,
                 letterSpacing: "0.04em",
                 textTransform: "uppercase",
@@ -416,7 +420,7 @@ export default function RealtimeSession({ isOpen, onClose, onSessionEnd }: Realt
                 fontFamily: "var(--font-sans)",
               }}
             >
-              <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+              <svg width="10" height="10" viewBox="0 0 8 8" fill="none">
                 <circle cx="4" cy="4" r="3" stroke="#ffffff" strokeWidth="1.2" />
                 <path d="M3 2.5l2.5 1.5L3 5.5V2.5z" fill="#ffffff" />
               </svg>
@@ -430,12 +434,13 @@ export default function RealtimeSession({ isOpen, onClose, onSessionEnd }: Realt
                 display: "flex",
                 alignItems: "center",
                 gap: "5px",
-                padding: "4px 10px",
+                padding: "8px 14px",
+                minHeight: "44px",
                 background: "#DC2626",
                 color: "#ffffff",
                 border: "none",
                 borderRadius: "4px",
-                fontSize: "10px",
+                fontSize: "11px",
                 fontWeight: 700,
                 letterSpacing: "0.04em",
                 textTransform: "uppercase",
@@ -443,7 +448,7 @@ export default function RealtimeSession({ isOpen, onClose, onSessionEnd }: Realt
                 fontFamily: "var(--font-sans)",
               }}
             >
-              <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+              <svg width="10" height="10" viewBox="0 0 8 8" fill="none">
                 <rect x="1.5" y="1.5" width="5" height="5" rx="0.75" fill="#ffffff" />
               </svg>
               End Call
@@ -453,12 +458,13 @@ export default function RealtimeSession({ isOpen, onClose, onSessionEnd }: Realt
             <button
               onClick={() => dispatch({ type: "RESET" })}
               style={{
-                padding: "4px 10px",
+                padding: "8px 14px",
+                minHeight: "44px",
                 background: "var(--s-surface-2)",
                 color: "var(--s-text-2)",
                 border: "1px solid var(--s-border)",
                 borderRadius: "4px",
-                fontSize: "10px",
+                fontSize: "11px",
                 fontWeight: 600,
                 cursor: "pointer",
                 fontFamily: "var(--font-sans)",
@@ -471,8 +477,8 @@ export default function RealtimeSession({ isOpen, onClose, onSessionEnd }: Realt
             onClick={isActive ? handleEndSession : onClose}
             aria-label="Close"
             style={{
-              width: "22px",
-              height: "22px",
+              width: "44px",
+              height: "44px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -498,7 +504,7 @@ export default function RealtimeSession({ isOpen, onClose, onSessionEnd }: Realt
             <div key={i} style={{ display: "flex", gap: "7px", alignItems: "flex-start" }}>
               <span
                 style={{
-                  fontSize: "9px",
+                  fontSize: "10px",
                   fontWeight: 700,
                   fontFamily: "var(--font-mono)",
                   color: turn.role === "assistant" ? "var(--s-accent-text)" : "var(--s-text-muted)",

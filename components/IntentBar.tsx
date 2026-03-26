@@ -33,7 +33,7 @@ export default function IntentBar({
           <div style={{ minWidth: 0 }}>
             <div
               style={{
-                fontSize: "9px",
+                fontSize: "10px",
                 fontWeight: 700,
                 color: "var(--s-text-muted)",
                 textTransform: "uppercase",
@@ -54,7 +54,7 @@ export default function IntentBar({
               {isLoading && !intent ? (
                 <div
                   className="skeleton"
-                  style={{ width: "200px", height: "24px", borderRadius: "4px" }}
+                  style={{ width: "min(200px, 60%)", height: "24px", borderRadius: "4px" }}
                 />
               ) : (
                 <div className="cc-intent-name">
@@ -84,7 +84,7 @@ export default function IntentBar({
         <div className="cc-intent-bar-right">
           <div
             style={{
-              fontSize: "9px",
+              fontSize: "10px",
               color: "var(--s-text-muted)",
               textTransform: "uppercase",
               letterSpacing: "0.08em",
@@ -96,7 +96,7 @@ export default function IntentBar({
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <div
               style={{
-                width: "100px",
+                width: "min(100px, 100%)",
                 height: "3px",
                 background: "var(--s-border)",
                 borderRadius: "2px",

@@ -227,6 +227,15 @@ body {
    Mobile (<1024px): sidebar becomes a fixed drawer, panels stack.
    ============================================================ */
 
+/* --- Realtime session header --- */
+.cc-rt-header {
+  min-height: 44px;
+}
+
+.cc-rt-subtitle {
+  display: inline;
+}
+
 /* --- Realtime session transcript --- */
 .cc-rt-transcript {
   max-height: 160px;
@@ -256,8 +265,8 @@ body {
   display: none;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
   background: var(--s-accent-light);
   border: 1px solid var(--s-accent-border);
   border-radius: 5px;
@@ -285,8 +294,8 @@ body {
   position: absolute;
   top: 10px;
   right: 10px;
-  width: 28px;
-  height: 28px;
+  width: 44px;
+  height: 44px;
   background: var(--s-surface-2);
   border: 1px solid var(--s-border);
   border-radius: 5px;
@@ -484,6 +493,11 @@ body {
   .cc-welcome-label {
     min-width: 0;
   }
+  /* Hide realtime subtitle on mobile */
+  .cc-rt-subtitle {
+    display: none;
+  }
+
   /* Shorter transcript on small screens to preserve space for channel panels */
   .cc-rt-transcript {
     max-height: 80px;

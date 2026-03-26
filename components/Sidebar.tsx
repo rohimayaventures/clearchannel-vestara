@@ -104,7 +104,7 @@ export default function Sidebar({
           >
             <div
               style={{
-                fontSize: "9.5px",
+                fontSize: "11px",
                 fontWeight: 700,
                 color: "var(--s-text-muted)",
                 textTransform: "uppercase",
@@ -143,7 +143,8 @@ export default function Sidebar({
                 color: "#fff",
                 border: "none",
                 borderRadius: "5px",
-                padding: "8px 0",
+                padding: "10px 0",
+                minHeight: "44px",
                 fontSize: "12px",
                 fontWeight: 600,
                 cursor: isLoading ? "not-allowed" : "pointer",
@@ -171,7 +172,7 @@ export default function Sidebar({
           >
             <div
               style={{
-                fontSize: "9px",
+                fontSize: "10px",
                 fontWeight: 700,
                 color: "var(--s-accent-text)",
                 textTransform: "uppercase",
@@ -252,7 +253,7 @@ export default function Sidebar({
           >
             <div
               style={{
-                fontSize: "9.5px",
+                fontSize: "11px",
                 fontWeight: 700,
                 color: "var(--s-text-muted)",
                 textTransform: "uppercase",
@@ -267,7 +268,8 @@ export default function Sidebar({
                 key={index}
                 onClick={() => onSampleClick(index, sample)}
                 style={{
-                  padding: "7px 9px",
+                  padding: "10px 9px",
+                  minHeight: "44px",
                   borderRadius: "4px",
                   fontSize: "11px",
                   lineHeight: 1.45,
@@ -302,7 +304,7 @@ export default function Sidebar({
             >
               <div
                 style={{
-                  fontSize: "9.5px",
+                  fontSize: "11px",
                   fontWeight: 700,
                   color: "var(--s-text-muted)",
                   textTransform: "uppercase",
@@ -314,7 +316,7 @@ export default function Sidebar({
               </div>
               <div
                 style={{
-                  fontSize: "10.5px",
+                  fontSize: "11px",
                   color: "var(--s-text-2)",
                   lineHeight: 1.5,
                 }}

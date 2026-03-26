@@ -185,7 +185,7 @@ export default function Home() {
       style={{
         display: "flex",
         flexDirection: "column",
-        height: "100vh",
+        height: "100dvh",
         overflow: "hidden",
         background: "var(--s-bg)",
         transition: "all 0.5s ease",

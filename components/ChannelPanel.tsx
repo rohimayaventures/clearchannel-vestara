@@ -57,7 +57,7 @@ function FieldLabel({ children }: { children: React.ReactNode }) {
   return (
     <div
       style={{
-        fontSize: "9px",
+        fontSize: "10px",
         fontWeight: 700,
         color: "var(--s-text-muted)",
         textTransform: "uppercase",
@@ -121,7 +121,7 @@ function IVRBody({ data }: { data: AnalysisResult["ivr"] }) {
             <span
               key={e}
               style={{
-                fontSize: "10px",
+                fontSize: "11px",
                 padding: "2px 6px",
                 borderRadius: "3px",
                 fontFamily: "var(--font-mono)",
@@ -137,7 +137,7 @@ function IVRBody({ data }: { data: AnalysisResult["ivr"] }) {
             <span
               key={e}
               style={{
-                fontSize: "10px",
+                fontSize: "11px",
                 padding: "2px 6px",
                 borderRadius: "3px",
                 fontFamily: "var(--font-mono)",
@@ -210,7 +210,7 @@ function ChatbotBody({ data }: { data: AnalysisResult["chatbot"] }) {
             <span
               key={qr}
               style={{
-                fontSize: "10px",
+                fontSize: "11px",
                 border: "1px solid var(--s-border)",
                 color: "var(--s-text-2)",
                 borderRadius: "10px",
@@ -302,7 +302,7 @@ function AgentAssistBody({ data }: { data: AnalysisResult["agent_assist"] }) {
           </div>
           <div
             style={{
-              fontSize: "9.5px",
+              fontSize: "10.5px",
               color: "var(--s-text-muted)",
               marginTop: "2px",
             }}
@@ -321,7 +321,7 @@ function AgentAssistBody({ data }: { data: AnalysisResult["agent_assist"] }) {
             border: "1px solid #FECACA",
             borderRadius: "3px",
             padding: "3px 7px",
-            fontSize: "9.5px",
+            fontSize: "10.5px",
             fontWeight: 700,
             color: "#991B1B",
           }}
@@ -402,7 +402,7 @@ export default function ChannelPanel({
               {config.name}
             </div>
             <div
-              style={{ fontSize: "10px", color: "var(--s-text-muted)" }}
+              style={{ fontSize: "11px", color: "var(--s-text-muted)" }}
             >
               {config.desc}
             </div>
@@ -426,9 +426,9 @@ export default function ChannelPanel({
           ) : (
             <span
               style={{
-                fontSize: "9.5px",
-                fontWeight: 600,
-                padding: "2px 7px",
+              fontSize: "10.5px",
+              fontWeight: 600,
+              padding: "2px 7px",
                 borderRadius: "3px",
                 background: "var(--s-accent-light)",
                 color: "var(--s-accent-text)",

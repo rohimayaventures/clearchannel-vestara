@@ -13,7 +13,7 @@ function ColLabel({ children }: { children: React.ReactNode }) {
   return (
     <div
       style={{
-        fontSize: "9px",
+        fontSize: "10px",
         fontWeight: 700,
         color: "var(--s-text-muted)",
         textTransform: "uppercase",
@@ -89,7 +89,8 @@ export default function NLUSection({ result, isLoading, isExpanded, onToggle }: 
           alignItems: "center",
           justifyContent: "space-between",
           width: "100%",
-          padding: "11px 14px",
+          padding: "12px 14px",
+          minHeight: "44px",
           background: "transparent",
           border: "none",
           cursor: "pointer",
@@ -100,7 +101,7 @@ export default function NLUSection({ result, isLoading, isExpanded, onToggle }: 
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <span
             style={{
-              fontSize: "9.5px",
+              fontSize: "10.5px",
               fontWeight: 700,
               color: "var(--s-text-muted)",
               textTransform: "uppercase",
@@ -110,7 +111,7 @@ export default function NLUSection({ result, isLoading, isExpanded, onToggle }: 
             NLU Architecture
           </span>
           {result && (
-            <span style={{ fontSize: "9.5px", color: "var(--s-accent-text)", fontFamily: "var(--font-mono)", fontWeight: 700 }}>
+            <span style={{ fontSize: "10.5px", color: "var(--s-accent-text)", fontFamily: "var(--font-mono)", fontWeight: 700 }}>
               {result.intent.primary}
             </span>
           )}
@@ -217,9 +218,9 @@ export default function NLUSection({ result, isLoading, isExpanded, onToggle }: 
                   </div>
                   <div
                     style={{
-                      fontSize: "9.5px",
-                      color: "var(--s-text-muted)",
-                      lineHeight: 1.4,
+                    fontSize: "10.5px",
+                    color: "var(--s-text-muted)",
+                    lineHeight: 1.4,
                     }}
                   >
                     {result.nlu.threshold_note}
