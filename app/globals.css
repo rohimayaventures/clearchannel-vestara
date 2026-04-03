@@ -12,8 +12,7 @@
   --color-text-primary: #1B2E4B;
   --color-text-secondary: #3D4F63;
   --color-text-muted: #8A94A0;
-  --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
-  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+  /* --font-sans / --font-mono: set by next/font on <html> (app/layout.tsx) */
 
   /* Semantic sentiment tokens — default: neutral */
   --s-bg: #F0F2F5;
