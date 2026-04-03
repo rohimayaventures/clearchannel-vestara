@@ -13,8 +13,11 @@ export default function WelcomeModal() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (localStorage.getItem(LS_KEY)) return;
-    setVisible(true);
-    requestAnimationFrame(() => setFadeIn(true));
+    const show = requestAnimationFrame(() => {
+      setVisible(true);
+      requestAnimationFrame(() => setFadeIn(true));
+    });
+    return () => cancelAnimationFrame(show);
   }, []);
 
   useEffect(() => {

@@ -31,11 +31,13 @@ sensitivity protocols across all three channels.
 
 ## Tech stack
 
-- Next.js 15 (App Router)
+- Next.js 16 (App Router), React 19
 - TypeScript
 - Tailwind CSS v4
-- Anthropic Claude API (claude-sonnet-4-6)
-- IVR audio playback implemented via /api/speak (OpenAI TTS).
+- Anthropic Claude API (claude-sonnet-4-6), SSE streaming analysis
+- OpenAI Whisper (`/api/transcribe`) for voice input from recorded audio
+- OpenAI TTS (`/api/speak`) for IVR audio playback
+- OpenAI Realtime API (`/api/realtime-session`) for Live Call mode
 - Vercel
 
 ---
@@ -70,7 +72,7 @@ Open [http://localhost:3000](http://localhost:3000).
 | Route | Description |
 |---|---|
 | `/` | Main ClearChannel lab — utterance input and three channel outputs |
-| — | Design Artifact page — planned, not yet built. |
+| `/design-artifact` | Static conversation design documentation (intent taxonomy, overrides, entities, sentiment map) |
 
 ---
 

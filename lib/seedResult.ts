@@ -61,7 +61,7 @@ export const SEED_RESULT: AnalysisResult = {
       "I want to take money out of my IRA and put it in my regular account",
       "Can I move funds from my retirement account to my brokerage",
       "I need to pull money from my IRA into my investment account",
-      "How do I transfer from my IRA to my Vanguard brokerage account",
+      "How do I transfer from my IRA to my Vestara brokerage account",
     ],
     confidence_threshold: 0.72,
     threshold_note:

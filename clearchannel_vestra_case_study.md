@@ -1,8 +1,8 @@
 # CLEARCHANNEL BY VESTARA — CASE STUDY
 
-*Reference document. Does not render on site. All visitor-facing content lives in caseStudies.ts.*
+*Reference document. Does not render on site. All visitor-facing content lives in component copy and page files.*
 *Case study updated April 2026. Hannah Kraulik Pagade, Rohimaya Health AI.*
-*Privacy note: this case study contains no references to Vanguard, Pagade Ventures, or any active interview process. All enterprise financial services framing is attributed to the fictional firm Vestara.*
+*Privacy note: this case study contains no references to any named enterprise financial firm. All framing is attributed to the fictional firm Vestara. The system prompt uses generic enterprise financial services knowledge only. This product was built as a portfolio demonstration for enterprise conversational channels roles.*
 
 ---
 
@@ -17,46 +17,40 @@
 | **Tags** | CONVERSATION-DESIGN · NLU-ARCHITECTURE · ENTERPRISE-FINTECH · PORTFOLIO-ARTIFACT |
 | **Role** | Conversation design, NLU architecture, product design, full-stack build |
 | **Timeline** | March 2026 |
-| **Key outcome** | A live, working conversational design lab that demonstrates simultaneous multi-channel output, NLU architecture, and emotional state handling across IVR, Chatbot, and Agent Assist |
-| **Stack** | Next.js · TypeScript · Tailwind CSS · Claude API · Vercel |
+| **Key outcome** | A live conversational design lab demonstrating simultaneous multi-channel output, NLU architecture, sentiment-driven UI theming across five emotional states, OpenAI Realtime live call, and voice input via Whisper across IVR, Chatbot, and Agent Assist |
+| **Stack** | Next.js 16 · React 19 · TypeScript · Tailwind CSS · Claude API (claude-sonnet-4-6) · OpenAI (Whisper · TTS · Realtime) · Vercel |
 
 ---
 
 ## SECTION 1 — THE PROOF POINT
 
-When a person calls a financial services firm to say their spouse just died and they need to update their account, the first thing the system should not do is ask for an account number.
+When a person calls a financial services firm to say their spouse just died, the first thing the system should not do is ask for an account number.
 
-That sentence describes a real failure mode in enterprise conversational AI. The IVR and chatbot are often optimized for the median interaction: balance inquiry, fund transfer, password reset. The system is good at those. But a bereavement call is not the median interaction. A bereavement call is the moment when the design of the conversational system either respects the customer or it does not.
+That sentence describes a real failure mode in enterprise conversational AI. The IVR and chatbot are optimized for the median interaction: balance inquiry, fund transfer, password reset. The system is good at those. But a bereavement call is not the median interaction. A bereavement call is the moment when the design of the conversational system either respects the customer or it does not.
 
-ClearChannel is built around that proof point. The bereavement utterance ("My husband just passed and I need to update my beneficiary") triggers a completely different behavior across all three channels. IVR leads with condolences, suppresses the account number prompt, and routes to a senior specialist. Chatbot adjusts tone and eliminates quick reply shortcuts that would feel dismissive. Agent Assist surfaces the bereavement protocol immediately: documentation required, escalation path, compliance flag for the sensitive handling classification.
+ClearChannel is built around that proof point. When the bereavement utterance is submitted, two things happen simultaneously. The NLU system classifies the intent as BENEFICIARY_UPDATE with distressed sentiment and fires the bereavement override, suppressing the account verification prompt and routing to a senior specialist. And the entire application's color system shifts to purple.
 
-That single utterance demonstrates more about conversational system design than a dozen standard test cases. It is the reason the tool lands in portfolio reviews.
+That second thing is not decoration. The `data-sentiment` attribute drives a semantic CSS token system that cascades through every surface in the interface: topbar, background, accents, borders, pills, prosody indicators. Distressed: purple (`#7C3AED`). Urgent: red (`#DC2626`). Concerned: amber (`#D97706`). Confused: blue (`#3B82F6`). Neutral: teal (`#0891B2`).
+
+The UI does not just label sentiment. It inhabits it. That design decision demonstrates that emotional state handling was an architectural commitment across both the prompt logic and the visual system, not a feature layer added after the fact.
 
 ---
 
 ## SECTION 2 — THE PROBLEM
 
-### The gap most conversation designers do not address
+### Enterprise conversational AI is never one channel
 
-Enterprise conversational AI is almost never deployed as a single channel.
+A financial services firm of any scale runs all of the following simultaneously: an IVR system that answers phone calls, a chatbot that handles digital interactions, and an Agent Assist tool that runs on the screen of every live representative. These three channels share the same customers, the same intents, and the same compliance requirements. But they have different output constraints, different affordances, and different failure modes.
 
-A financial services firm of any scale runs all of the following simultaneously: an IVR system that answers phone calls, a chatbot that handles digital interactions on the website and app, and an Agent Assist tool that runs on the screen of every live representative who takes a call. These three channels share the same customers, the same intents, and the same compliance requirements. But they have different output constraints, different affordances, and different failure modes.
+IVR is entirely audible. There are no buttons to tap. The customer is speaking and the system must respond in natural spoken English with prosody notes and a clear routing decision. A chatbot response that works in text is often too long, too structured, or too dependent on visual formatting to work as an IVR script.
 
-IVR is entirely audible. There are no buttons to tap. The customer is speaking and the system must respond in natural, spoken English with prosody notes and a clear routing decision. A chatbot response that works perfectly in text is often too long, too structured, or too dependent on visual formatting to work as an IVR script.
-
-Chatbot can afford more context. It can use progressive disclosure, quick reply buttons, and handoff context. But it cannot do what Agent Assist does.
-
-Agent Assist is not a customer-facing tool at all. It runs on the representative's screen in real time while the call is happening. It surfaces the suggested response the agent should read aloud, the compliance requirements relevant to this transaction, the policy references the agent would otherwise have to look up, and the escalation path if the interaction requires it. An agent with Agent Assist handles edge cases faster and with fewer errors. Without it, a junior representative taking a bereavement call might immediately ask for an account number from someone whose spouse just died.
+Agent Assist is not customer-facing at all. It runs on the representative's screen in real time while the call is happening. It surfaces the suggested response the agent should read aloud, the compliance requirements relevant to this transaction, the policy references the agent would otherwise have to look up, and the escalation path. Without it, a junior representative taking a bereavement call might immediately ask for an account number from someone whose spouse just died.
 
 Most conversation designers design for one channel. ClearChannel demonstrates what it means to design all three simultaneously, starting from the same utterance.
 
 ### Why the edge cases define the system
 
-The eleven sample utterances in ClearChannel were not chosen to demonstrate what works. They were chosen to demonstrate what separates a well-designed conversational system from an adequate one.
-
-A system that handles "What is my balance?" correctly has met the baseline. A system that handles "I think someone accessed my account without permission" correctly has demonstrated fraud detection and emotional state escalation. A system that handles "The market is down 8% and I'm thinking about moving everything to cash" correctly has demonstrated sentiment detection and a behavioral coaching guardrail that prevents a panic sell without being paternalistic about it.
-
-Those edge cases are where the design quality lives.
+The eleven sample utterances were chosen to demonstrate what separates a well-designed conversational system from an adequate one. A system that handles balance inquiries correctly has met the baseline. A system that handles the bereavement call, the fraud call, and the panic-selling call correctly has demonstrated that it was designed with the full range of human experience in view.
 
 ---
 
@@ -64,44 +58,59 @@ Those edge cases are where the design quality lives.
 
 ### The constraint set
 
-**One utterance in. Three channel outputs out.**
-The core product constraint was that every test utterance must render simultaneous outputs for all three channels, not in sequence, not in tabs, but in parallel. A hiring manager looking at this tool should immediately understand that the designer thinks about channels as a system, not as separate deployments.
+**One utterance in. Three channel outputs out, simultaneously.**
+Every test utterance renders IVR, Chatbot, and Agent Assist outputs in parallel. The layout reflects a deliberate hierarchy: IVR takes 44% of the panel width as the primary audible channel, Chatbot and Agent Assist stack on the right, and the NLU architecture card collapses below the channel outputs and expands on demand. This is not four equal panels. It is a reading order built on how a practitioner actually uses this information.
 
-**The NLU architecture card must render live.**
-The intent taxonomy, entity schema, training phrases, and confidence threshold are not static documentation. They are generated by the same Claude API call that powers the channel outputs. The system is showing its reasoning, not just its response.
+**Start empty. Let the user drive.**
+The lab opens on an empty state, not a pre-seeded dashboard. A short invitation surfaces two paths: open the sample utterances in the sidebar or start a Live Call. Analysis only appears after the user acts. A busy first screen with fake pre-loaded results reads as a data dump and skips the product story. The empty state reframes ClearChannel as a tool the user drives, not a screenshot of a tool.
 
-**Emotional state is a first-class input.**
-The NLU classification system has override rules that fire before any other intent classification. Bereavement language immediately classifies as BENEFICIARY_UPDATE with distressed sentiment. Fraud language immediately escalates. Panic-selling language triggers a behavioral coaching guardrail. These overrides are not edge case handling. They are the point.
+**Emotional state is an architectural commitment, not a feature.**
+The sentiment theming system is the proof. The `[data-sentiment]` CSS token architecture drives every color surface from a single attribute on the root element, with smooth transitions across major surfaces. When the system classifies an utterance as distressed, the override fires in the prompt logic and the CSS attribute changes simultaneously. The environment echoes bereavement, urgency, and confusion at a glance. The design and the system are the same decision.
 
-**The confidence threshold display is a deliberate product decision.**
-Showing a confidence score alongside a threshold bar signals something specific to a hiring team: this designer knows what a confidence threshold is, why it matters, and how it would be tuned in a production NLU system. That detail separates a conversation designer from a conversation system designer.
+**The confidence threshold display is deliberate.**
+Showing a confidence score alongside a threshold bar signals that this designer knows what a confidence threshold is, why it matters, and how it would be tuned in a production NLU system. That detail separates a conversation designer from a conversation system designer.
 
-### The Claude API prompt architecture
+### The Claude API prompt architecture and SSE streaming
 
-The single most important architectural decision in ClearChannel is that one Claude API call produces all four outputs simultaneously: IVR channel, Chatbot channel, Agent Assist channel, and NLU architecture breakdown.
+One Claude API call (claude-sonnet-4-6) with a structured JSON output contract produces all channel outputs simultaneously, streamed over SSE. The client accumulates the text stream and extracts complete JSON sections as braces close. The intent bar and channel panels fill progressively as each block arrives, rather than waiting for one full response.
 
-The system prompt is structured as a conversation architect role with a strict JSON output contract. The contract specifies:
-- IVR: spoken script with prosody annotations, extracted entities, routing decision, fallback path
-- Chatbot: bot response, quick reply options, containment decision, handoff context
-- Agent Assist: suggested agent script, auto-surfaced policy references, compliance flags, escalation path
-- NLU: primary intent, confidence score, threshold, entity list, training phrase suggestions
+This alignment between implementation and product argument matters. The thesis is one utterance, many channels at once. A single blocking response hides that structure. Streaming makes the parallel outputs visible and improves perceived performance in reviews and demos. The same reasoning surfaces across IVR, Chatbot, Agent Assist, and NLU, not as a sequential reveal, but as one response unfolding in real time.
 
-The output is validated and rendered into four panels. If the JSON contract fails, the system retries with a structured repair prompt before surfacing an error state.
+The system prompt uses generic enterprise financial services knowledge only. No named external firm appears anywhere in the system prompt or codebase.
 
-### The bereavement and compliance design decisions
+### The voice input architecture
 
-**Bereavement protocol:**
-IVR and chatbot both lead with condolences before any account-related action. The account verification prompt is suppressed. Agent Assist immediately surfaces the documentation checklist (death certificate, beneficiary form, estate information) and routes to a senior specialist. These are not tone adjustments. They are structural routing changes that fire based on a single classification trigger.
+Voice input uses MediaRecorder to capture audio in the browser. The audio blob is sent to `/api/transcribe`, which calls OpenAI Whisper for server-side speech-to-text. The transcript then passes through the same analysis pipeline as a typed utterance.
 
-**Compliance flags:**
-Financial services transactions above $50K require a compliance review. Transfers to international accounts require additional documentation. These flags surface in the Agent Assist panel automatically, based on extracted entities. An agent should never have to remember the compliance threshold. The system should surface it.
+This is a different and more reliable architecture than Web Speech API. Web Speech API is browser-native and free but varies significantly across browsers and has limited support for non-English languages and financial terminology. The Whisper path produces a more accurate transcript across accents and domain-specific terms, and the server-side result can be logged and reviewed. The added latency is a real tradeoff. It is the right tradeoff for a context where accuracy matters more than speed.
 
-**The handoff context field:**
-The Chatbot panel includes handoff context: what the customer said, what the bot said, the detected intent, and any entities captured before handoff. This exists because no customer should have to repeat themselves when moving from chatbot to phone to live agent. The handoff context travels with them.
+IVR audio playback uses a separate path: `/api/speak` with OpenAI TTS, then `fetch` to a Blob URL, then `HTMLAudioElement.play()`. This pattern was chosen specifically for iOS Safari reliability. `AudioContext` and decoded buffer approaches break user-gesture chains across `await` on iOS. IVR failing on a phone undercuts the entire voice channel story. The Blob URL approach favors reliable tap-to-play over lower-level audio APIs. IVR is audible-first. Mobile playback is a product requirement, not a nice-to-have.
 
-### Design system: Vestara Institutional
+### The OpenAI Realtime "Live Call" feature
 
-The visual design is built around Vestara Institutional: deep navy (#0A1628), institutional gold (#B8860B), white (#FFFFFF), and a clean sans-serif type stack. The design signals enterprise financial services without referencing any real firm. The four-panel layout surfaces all information simultaneously without requiring the user to navigate between views.
+The Live Call feature uses the OpenAI Realtime API to enable a persistent, low-latency voice session. The user starts a Live Call, speaks naturally, and the system generates real-time transcripts and concurrent analysis. The Realtime session token is fetched via `/api/realtime-session` and the `RealtimeSession` component manages the WebSocket lifecycle.
+
+This is a second, distinct input mode alongside typed and recorded utterances. Typed samples demonstrate NLU design through deliberate edge cases. Live Call demonstrates contact-center reality. Burying the feature wasted a genuine differentiator. It is now surfaced as the primary CTA on the empty-state hero alongside the sample utterance path. Two proofs run in one lab: designed utterances for edge cases, and live speech for "this is what a call feels like."
+
+### Pivot stories
+
+**Pivot A — Empty state instead of pre-seeded dashboard**
+The lab originally opened with a pre-loaded analysis result to look immediately "live." During review, a busy first screen read as a data dump, especially on mobile, and it bypassed the product story. The decision was to start empty and put two paths in front of the user: open a sample, or start a Live Call. We chose clarity over looking live on load. The first screen is the brief.
+
+**Pivot B — SSE streaming for progressive panel fill**
+Analysis originally waited for one full JSON response before rendering. The thesis is one utterance, many channels simultaneously. A blocking response hides that structure. Moving to SSE with progressive section extraction makes the parallel outputs visible as they arrive. The implementation now matches the product argument.
+
+**Pivot C — IVR audio and iOS Safari**
+IVR audio originally used `AudioContext` and decoded buffers. On iOS Safari, user-gesture chains break across `await`, causing silent failures on tap-to-play. The pattern was changed to `fetch` to Blob URL to `HTMLAudioElement.play()` with cleanup on end and unmount. Reliable playback on a phone is not a mobile edge case for an IVR demo. It is the demo.
+
+**Pivot D — Sentiment as full-environment signal**
+The original design used a small badge to label sentiment state. The problem: if only a badge changes color, reviewers miss the point that emotional state changes routing, copy, and system behavior. Semantic CSS variables driven by `data-sentiment` now retint background, topbar, accents, panels, and prosody indicators with smooth transitions. The UI does not just label sentiment. It inhabits it.
+
+**Pivot E — Welcome flow and mobile craft**
+The original welcome experience could not be scrolled to completion on small screens, and several controls did not meet 44px touch targets. The welcome layer was rebuilt with backdrop scrolling (not a trapped centered card), `100dvh`, 44px touch targets throughout, tighter Realtime header behavior, and readable label sizes on small screens. Portfolio demos are shipped software. Onboarding and thumb-sized UI are part of the proof.
+
+**Pivot F — Live Call as first-class story**
+Live Call originally lived in an easy-to-miss location. Typed samples show NLU design. Live voice shows contact-center reality. Burying the Realtime feature wasted a differentiator. It was promoted to the empty-state hero as a primary CTA alongside sample utterances, with a stronger topbar control and a header layout that does not break on narrow widths.
 
 ---
 
@@ -117,7 +126,7 @@ The visual design is built around Vestara Institutional: deep navy (#0A1628), in
 - Repeat caller frustration
 - Barge-in escalation (caller interrupting the system)
 - Vague distress (caller does not know what they need)
-- Cognitive accessibility (family member managing an account)
+- Cognitive accessibility (family member managing account)
 - Time pressure / urgent deadline
 
 ### Channel outputs per utterance
@@ -129,16 +138,72 @@ The visual design is built around Vestara Institutional: deep navy (#0A1628), in
 - Primary intent with confidence score and threshold visualization
 - Entity schema for the detected intent
 - Training phrase suggestions
-- Confidence threshold display (0.85 default, adjustable by intent category)
+- 18 classified intents with priority override rules
+- Collapsible, horizontally scrollable four-column grid below channel panels
 
-### Override rules rendered live
-- Bereavement override: death/loss language fires BENEFICIARY_UPDATE with distressed sentiment, suppresses standard verification flow
-- Fraud override: unauthorized access language fires immediate escalation protocol
-- Panic-sell guardrail: market anxiety language fires behavioral coaching response, not a standard routing decision
+### Sentiment theming system (five states)
+CSS token architecture. `[data-sentiment]` attribute cascades through all color surfaces simultaneously with transitions.
+
+| State | Topbar | Accent | Trigger |
+|---|---|---|---|
+| neutral | `#1B2E4B` | `#0891B2` | Default, informational intents |
+| concerned | `#2A1F0A` | `#D97706` | Market anxiety, volatility |
+| distressed | `#2D1F5E` | `#7C3AED` | Bereavement, loss |
+| urgent | `#3B0A0A` | `#DC2626` | Fraud, unauthorized access |
+| confused | `#0F1E35` | `#3B82F6` | Vague distress, cognitive load |
+
+### Override rules (fire before any other classification)
+1. Bereavement: BENEFICIARY_UPDATE intent, distressed sentiment, verification suppressed, senior specialist routing, `data-sentiment="distressed"`
+2. Fraud: immediate escalation protocol, `data-sentiment="urgent"`
+3. Market anxiety / panic-sell: behavioral coaching guardrail, `data-sentiment="concerned"`
+4. Barge-in: interruption detection, simplified re-prompt
+
+### Voice and audio
+- MediaRecorder captures audio in browser
+- Audio blob sent to `/api/transcribe` (OpenAI Whisper, server-side)
+- Transcript passed through standard analysis pipeline
+- `/api/speak`: OpenAI TTS generates IVR audio, Blob URL + `HTMLAudioElement` for playback
+- Pulse animation on IVR play button during active playback
+
+### OpenAI Realtime Live Call
+- Persistent low-latency voice session via OpenAI Realtime API
+- Token fetched via `/api/realtime-session`
+- `RealtimeSession` component manages WebSocket lifecycle
+- Real-time transcript with concurrent multi-channel analysis
+- Primary CTA on empty-state hero alongside sample utterance path
+
+### SSE streaming with progressive fill
+- Claude API response streams over SSE
+- Client accumulates text and extracts complete JSON sections as braces close
+- Intent bar and channel panels fill as each block arrives
+- No blocking wait for full response
+
+### Empty state and welcome flow
+- Lab opens empty with invitation and two CTA paths: sample utterances or Live Call
+- Welcome modal explains intent bar, three channel panels, sentiment shift, and NLU section
+- Tuned for recruiter and non-technical reviewer context
+
+### Mobile layout
+- Hamburger button (44px touch target) on screens below 1024px
+- Sidebar becomes fixed off-canvas drawer with 0.35s cubic-bezier transition
+- Backdrop overlay with tap-to-close
+- Channel panels stack vertically (IVR full-width, right panel below)
+- NLU grid scrolls horizontally with right-edge fade mask
+- `100dvh` for scroll containment, 44px touch targets throughout
+
+### Design artifact page (`/design-artifact`)
+- Static page documenting the full conversation architecture
+- Intent taxonomy: all 18 intents with category, confidence threshold, and sentiment state
+- Override priority rules: four override types with structural changes and channel behavior
+- Entity schema: key entities with intent associations
+- Channel routing matrix: IVR, Chatbot, Agent Assist behaviors per intent category
+- Sentiment state map: five states with design token swatches from globals.css
+- Data sourced from `lib/designArtifactData.ts`
 
 ### Infrastructure
-- Next.js, TypeScript, Tailwind CSS
-- Claude API (claude-sonnet-4) with structured JSON output contract
+- Next.js 16, React 19, TypeScript, Tailwind CSS
+- Claude API (claude-sonnet-4-6), structured JSON output contract, SSE streaming
+- OpenAI Whisper (`/api/transcribe`), TTS (`/api/speak`), Realtime (`/api/realtime-session`)
 - Deployed on Vercel at clearchannel-vestara.vercel.app
 
 ---
@@ -147,122 +212,144 @@ The visual design is built around Vestara Institutional: deep navy (#0A1628), in
 
 | Component | Decision | Rationale |
 |---|---|---|
-| Simultaneous channel rendering | One Claude API call, one structured JSON contract, four panels rendered in parallel | Demonstrating that a single utterance is handled differently across three channels is the product thesis. Sequential API calls would have broken that visual argument. |
-| JSON output contract | Strict typed schema for all four panels | Unstructured output requires parsing logic that breaks on edge cases. A typed contract with a retry/repair pass produces reliable rendering. |
-| Override rules in system prompt | Bereavement, fraud, and panic-sell overrides fire before any other classification | Emotional state is the highest-priority classification in a financial services context. The override structure reflects that priority in the architecture. |
-| Confidence threshold display | Confidence score + threshold bar rendered in NLU card | A confidence threshold is how a production NLU system determines when to escalate versus resolve. Showing it demonstrates system-level thinking. |
-| Handoff context field | Captured in Chatbot panel, structured for agent consumption | Customer context should travel with the customer. The handoff context field demonstrates continuity architecture. |
-| Design system | Vestara Institutional (navy, gold, white, enterprise type stack) | Built for a financial services context. Not derived from Meridian Oracle. Signals domain fluency. |
-| Voice input | Web Speech API (browser-native, zero infrastructure cost) | Utterances can be spoken or typed. Voice input demonstrates that the designer understands IVR as an audible-first channel. |
+| Claude model | claude-sonnet-4-6 | Current production model at build time. |
+| Simultaneous channel rendering | One Claude API call, one JSON contract, SSE streaming, progressive panel fill | The product thesis is one utterance, three channels simultaneously. SSE makes that parallel structure visible as it arrives. |
+| Layout hierarchy | IVR 44% / right panel 56% (Chatbot + Agent Assist stacked) / NLU collapsible below | Reflects practitioner reading order. Channels are primary. Architecture is the supporting evidence. |
+| Sentiment theming | `[data-sentiment]` CSS token architecture, five states, smooth transitions | Emotional state handling is an architectural commitment. The CSS system and the prompt override logic change from the same trigger. |
+| Voice input | MediaRecorder + OpenAI Whisper (`/api/transcribe`) | More reliable than Web Speech API across browsers, accents, and financial terminology. Server-side transcript enables logging and review. |
+| IVR audio playback | `fetch` → Blob URL → `HTMLAudioElement.play()`, OpenAI TTS (`/api/speak`) | iOS Safari breaks `AudioContext` user-gesture chains across `await`. Blob URL pattern favors reliable tap-to-play on mobile. |
+| OpenAI Realtime Live Call | `RealtimeSession` component, `/api/realtime-session` token, WebSocket | Persistent low-latency session for natural conversation. Second input mode alongside typed and Whisper-transcribed utterances. |
+| JSON output contract | Structured typed schema, SSE streaming, client-side progressive parse | Client accumulates stream and extracts complete sections as braces close. No server-side repair pass. If parsing fails, panels may render partial or empty. No user-facing error state for this case yet. |
+| Confidence threshold display | Score + threshold bar populated from AI output | Reflects confidence of the specific utterance. Demonstrates NLU system-level thinking. |
+| Handoff context | Captured in Chatbot panel, structured for agent consumption | Customer context travels with the customer across channels. |
+| Override rules | Four overrides in system prompt, all tied to `data-sentiment` and structural routing changes | Bereavement and fraud fire before any other classification. Priority ordering is explicit in the prompt. |
+| Mobile layout | Off-canvas drawer, vertical panel stacking, horizontal NLU scroll with fade mask, `100dvh` | Standard mobile pattern for sidebar-heavy tools. 44px touch targets. Backdrop scrolling, not trapped modal. |
+| Design artifact page | Static page, `lib/designArtifactData.ts` data layer, no API calls | Visual NLU documentation separated from runtime types. Updates to conversation architecture require updating one data file. |
 
 ---
 
 ## SECTION 6 — STATUS MATRIX
 
+### What works
+
 | Area | Status | Notes |
 |---|---|---|
-| All 11 sample utterances | Working | Each utterance renders all four panels correctly. |
-| Bereavement override | Working | Correct routing, tone shift, and documentation checklist surface on this utterance. |
-| Fraud override | Working | Escalation path and compliance flag surface correctly. |
-| Panic-sell guardrail | Working | Behavioral coaching response surfaces without looping or repeating. |
-| Confidence threshold display | Working | Score and threshold bar render correctly in NLU card. |
-| Voice input | Working | Web Speech API functional in supported browsers. |
-| Custom utterance input | Working | Any utterance can be typed or spoken, not just the 11 samples. |
-| Mobile layout | Responsive | Four-panel layout collapses to single-column on mobile. All panels accessible via scroll. |
-| Retry/repair on JSON failure | Working | Structured repair prompt fires on malformed output before error state surfaces. |
-| Real NLU model integration | Not built | This is a demonstration tool. All NLU output is generated by Claude, not a production NLU engine like Dialogflow or LUIS. This is noted in the case study and honest summary. |
+| All 11 sample utterances | Working | Each utterance renders all channel outputs and NLU card. |
+| Sentiment theming system | Working | All five states fire and cascade correctly through CSS tokens. |
+| Bereavement override | Working | Routing, tone shift, documentation checklist, distressed theme. |
+| Fraud override | Working | Escalation path, compliance flag, urgent theme. |
+| Market anxiety guardrail | Working | Behavioral coaching response, concerned theme. |
+| Barge-in override | Working | Interruption detection, simplified re-prompt. |
+| SSE streaming | Working | Progressive panel fill. Intent bar populates before full output. |
+| Voice input via Whisper | Working | MediaRecorder + `/api/transcribe`. Transcript through standard pipeline. |
+| IVR audio playback | Working | `/api/speak` + OpenAI TTS, Blob URL, HTMLAudioElement, pulse animation. |
+| OpenAI Realtime Live Call | Working | RealtimeSession, WebSocket, real-time transcript, concurrent analysis. |
+| Confidence threshold display | Working | Score and threshold bar from AI output. |
+| Empty state and welcome flow | Working | Two CTA paths, welcome modal, mobile-scroll-safe. |
+| Mobile hamburger drawer | Working | Off-canvas with transition, backdrop overlay, tap-to-close. |
+| Mobile panel stacking | Working | IVR full-width, right panel below, NLU horizontal scroll with fade. |
+| Custom utterance input | Working | Any typed or spoken utterance, not limited to 11 samples. |
+| Design artifact page | Working | `/design-artifact` live with intent taxonomy, overrides, entities, routing matrix, sentiment map. |
+
+### Known gaps
+
+| Area | Status | Notes |
+|---|---|---|
+| JSON repair on parse failure | Not implemented | Client parses progressively with a final JSON.parse. No server-side repair pass. If output fails, panels may render partial or empty without a user-facing error state. |
+| User-visible JSON error state | Not built | Partial panel render on failure has no explanation surfaced to the user. |
+| Real NLU model integration | Not built | All NLU output is generated by Claude. Does not integrate with a production engine such as Dialogflow or LUIS. Honest in case study and architecture table. |
 
 ---
 
 ## SECTION 7 — PORTFOLIO COPY
 
 ### Proof point (short callout for site)
-A person calling a financial services firm to report their spouse has died should not be asked for an account number first. That one utterance drives the entire architecture of this tool.
+When the bereavement utterance fires, the system suppresses account verification, routes to a senior specialist, and the entire application turns purple. The UI does not just label sentiment. It inhabits it.
 
 ### Stats
-- 11 sample utterances covering edge cases from fraud detection to bereavement
-- 3 channels rendered simultaneously: IVR, Chatbot, Agent Assist
-- 18 classified intents with priority override rules for emotional state detection
+- 11 sample utterances covering emotional edge cases from fraud to bereavement
+- 3 channels rendered simultaneously via SSE streaming
+- 5 sentiment states driving the full CSS token system in real time
 
 ### Card summary
-Type or speak any investor utterance and watch simultaneous IVR, Chatbot, and Agent Assist outputs generate in real time, with the full NLU architecture card showing intent taxonomy, entity schema, training phrases, and confidence threshold. Built as a conversational design lab for enterprise financial services.
+Type or speak any investor utterance. Watch simultaneous IVR, Chatbot, and Agent Assist outputs stream live, the NLU architecture card populate, and the entire application's color system shift to reflect the detected emotional state. Built as a conversational design lab for enterprise financial services, with OpenAI Realtime for live call mode.
 
 ### Project description
-ClearChannel is a conversational design lab for Vestara, a fictional enterprise financial services firm. A user types or speaks an investor utterance and the tool generates simultaneous outputs for all three enterprise conversational channels: IVR (phone), Chatbot (digital), and Agent Assist (live representative support), plus a full NLU architecture breakdown. Built to demonstrate multi-channel conversational system design at enterprise scale.
+ClearChannel is a conversational design lab for Vestara, a fictional enterprise financial services firm. A user types or speaks an investor utterance and the tool generates simultaneous outputs for IVR, Chatbot, and Agent Assist, plus a full NLU architecture breakdown, streamed via SSE. A semantic CSS sentiment theming system shifts the entire interface across five emotional states based on intent classification. OpenAI Realtime enables a persistent live call mode. A static design artifact page documents the full conversation architecture behind the demo.
 
 ### Problem statement
-Enterprise conversational AI is never one channel. An investor who calls about a suspicious transaction may also be using the chatbot, and a live agent may be managing the same interaction. Most conversation designers optimize for one channel at a time. ClearChannel demonstrates what it means to design the full system: where IVR differs from chatbot in voice and structure, how handoff context travels between channels, when a compliance flag surfaces, and how an emotional state like bereavement changes every channel response simultaneously.
+Enterprise conversational AI is never one channel. An investor who calls about a suspicious transaction may also be using the chatbot, and a live agent may be managing the same interaction. Most conversation designers optimize for one channel at a time. ClearChannel demonstrates what it means to design the full system: where IVR differs from chatbot in voice and structure, how handoff context travels across channels, when a compliance flag surfaces, and how an emotional state like bereavement changes every channel response and the entire visual environment simultaneously.
 
 ### Process steps
-1. **The brief** — An enterprise conversational channels team needed a designer who understood IVR, chatbot, and agent assist as a system, not three separate deployments. I read that requirement as a product spec and built the tool that would make a hiring team say "she already understands our system." The 11 utterances were chosen deliberately: not generic queries, but the edge cases that define the quality of a conversational architecture.
-2. **The architecture decision** — One Claude API call with a strict JSON output contract produces all four panel outputs simultaneously. The output contract enforces channel-specific formats: IVR gets prosody annotations, Agent Assist gets compliance flags, Chatbot gets handoff context. All four are validated before render. If the contract fails, a repair pass fires before surfacing an error state.
-3. **The emotional state design** — Bereavement, fraud, and panic-selling are not edge cases in financial services. They are the interactions that define brand trust. Three override rules in the NLU system fire before any other classification. The bereavement override suppresses the account verification prompt, shifts tone across all channels, and routes to a senior specialist. That one design decision is worth more in a portfolio review than a hundred clean balance inquiry flows.
+1. **The brief** — An enterprise conversational channels team needed a designer who understood IVR, chatbot, and agent assist as a system. I read that requirement as a product spec and built the tool that would make a hiring team say "she already understands our system." The 11 utterances were chosen deliberately: the edge cases that define the quality of a conversational architecture.
+2. **The architecture** — One Claude API call (claude-sonnet-4-6) streams over SSE. The client extracts complete JSON sections progressively. Intent bar and panels fill as each block arrives. The streaming implementation matches the product argument: one utterance, three channels, unfolding simultaneously.
+3. **The emotional state design** — Bereavement, fraud, and panic-selling are not edge cases in financial services. They are the interactions that define brand trust. The system prompt defines **three critical overrides** that fire before general intent classification: bereavement, fraud, and barge-in. Panic-selling and market anxiety are handled through the **MARKET_ANXIETY** intent plus **emotional sensitivity rules** (behavioral coaching, concerned sentiment)—the same product outcome as a fourth “override,” but not a fourth numbered block in the prompt. The `data-sentiment` architecture means these classifications do not just change the text in the panels. They change the color of everything on the screen.
 
 ### Process steps interactive (sidebar anchors)
 - The Brief and Constraint Set
-- Multi-Channel Architecture
-- Emotional State Override Design
+- SSE Streaming Architecture
+- Sentiment Theming System
+- Voice Input and OpenAI Realtime
+- Pivot Stories
 - What Shipped
 
-### Pivot story
-The original design had the NLU architecture card as a separate page. The intent was to keep the primary view focused on the three channel outputs.
-
-During a review pass, the value became clear: the NLU card is what separates this demo from every other utterance-to-response chatbot demo. Hiding it one click away meant most reviewers would miss the thing that demonstrates system-level thinking. The card was moved inline, rendering in the same view as the channel outputs.
-
-**Lesson:** The most differentiating thing in a portfolio piece should be visible without a click. If a reviewer has to navigate to see your best work, most of them will not.
-
 ### What shipped (grouped, for ShippedGrid)
-- **Sample coverage:** 11 utterances covering transfers, fraud, balance, retirement, bereavement, panic-selling, repeat caller, barge-in, vague distress, cognitive accessibility, time pressure.
-- **Channel outputs:** IVR script with prosody annotations and routing. Chatbot response with quick replies and handoff context. Agent Assist with suggested script, policy references, and compliance flags.
-- **NLU architecture:** Intent taxonomy, confidence score and threshold, entity schema, training phrase suggestions.
-- **Override rules:** Bereavement protocol, fraud escalation, behavioral coaching guardrail, all rendered live.
-- **Infrastructure:** Next.js, Claude API, Vercel.
+- **Sample coverage:** 11 utterances: transfers, fraud, balance, retirement, bereavement, panic-selling, repeat caller, barge-in, vague distress, cognitive accessibility, time pressure.
+- **Channel outputs:** IVR with prosody and routing. Chatbot with quick replies and handoff context. Agent Assist with suggested script, policy references, and compliance flags.
+- **NLU architecture:** 18 intents, confidence score and threshold, entity schema, training phrase suggestions. Collapsible four-column grid.
+- **Sentiment theming:** Five states (neutral, concerned, distressed, urgent, confused) driving full CSS token cascade via `data-sentiment`.
+- **Override rules:** Bereavement, fraud escalation, behavioral coaching guardrail, barge-in. All tied to routing changes and sentiment state.
+- **Voice and audio:** MediaRecorder + OpenAI Whisper. OpenAI TTS for IVR audio playback. OpenAI Realtime for Live Call mode.
+- **SSE streaming:** Progressive panel fill. Intent bar populates before full output.
+- **Design artifact page:** `/design-artifact` with full NLU documentation, intent taxonomy, entity schema, channel routing matrix, and sentiment state map.
+- **Infrastructure:** Next.js 16, React 19, Claude API (claude-sonnet-4-6), OpenAI (Whisper, TTS, Realtime), Vercel.
 
 ### Stack highlighted
-Claude API (structured JSON output contract), Next.js (multi-panel rendering), Web Speech API (voice input)
+Claude API (claude-sonnet-4-6, SSE streaming), OpenAI (Whisper · TTS · Realtime), sentiment-driven CSS token system (`data-sentiment`)
 
 ### Stack standard
-TypeScript, Tailwind CSS, Vercel
+Next.js 16, React 19, TypeScript, Tailwind CSS, Vercel
 
 ### Impact quote
-The bereavement utterance is the one that matters. If the system asks for an account number from someone whose spouse just died, the conversation design has failed at the moment it mattered most. ClearChannel is built to demonstrate that this failure is a design problem, and design can solve it.
+The bereavement utterance is the one that matters. The system suppresses the account verification prompt, routes to a senior specialist, and the entire application turns purple. That is not decoration. That is the proof that emotional state handling was designed in, not added on.
 
 ### Honest summary
 
 **Technical understanding:**
-The Claude API prompt architecture for ClearChannel is the technical centerpiece. A single call with a typed JSON output contract produces four structured outputs simultaneously. Channel format differences are enforced in the system prompt: IVR gets prosody annotation fields, Agent Assist gets compliance flag arrays, Chatbot gets a handoff context object. The retry-on-failure pass uses a structured repair prompt rather than a generic retry. The confidence threshold rendering is not a static display. It is populated from the AI output alongside the intent classification, reflecting the confidence of the specific utterance, not a preset value.
+The Claude API call (claude-sonnet-4-6) streams over SSE. The client accumulates the text stream and extracts complete JSON sections as braces close, allowing progressive panel fill without a blocking wait. There is no server-side JSON repair pass. The current implementation does a final `JSON.parse` on the accumulated stream, and partial or failed output has no user-facing error state. That is the honest current implementation and it is in the status matrix. Voice uses MediaRecorder in the browser and OpenAI Whisper server-side via `/api/transcribe`, not Web Speech API. IVR audio uses OpenAI TTS via `/api/speak` with a Blob URL and `HTMLAudioElement` specifically for iOS Safari reliability. OpenAI Realtime manages a persistent WebSocket session for Live Call mode, a distinct architecture from the standard transcribe-then-analyze path.
 
 **Product understanding:**
-This project is built from a product brief. The brief was a job description for an enterprise conversational channels team that explicitly required NLU development, IVR design, chatbot design, and agent assist design as a single unified skillset. I read the job description as a product spec and built the artifact that demonstrated all four competencies simultaneously. The bereavement and compliance design decisions were not UI choices. They were product decisions: what an enterprise financial services system must do to handle edge cases correctly, and how to demonstrate that understanding in a portfolio tool without access to a real system.
+This project is built from a product brief: an enterprise conversational channels team that needed a designer who understood IVR, chatbot, and agent assist as a unified system. I read that as a product spec and built the artifact that demonstrated all competencies simultaneously. The six pivot stories in Section 3 each represent a real product decision with a real tradeoff. The empty state, the SSE streaming, the IVR audio path, the sentiment token architecture, the welcome flow, and the Live Call promotion are all decisions that made the product more honest about what it claims to demonstrate.
 
 **Design understanding:**
-The Vestara Institutional design system is purpose-built for this context. Enterprise financial services requires a visual language that signals institutional credibility: deep navy, precise typography, restrained use of gold. The four-panel layout was the hardest design decision. Showing all four outputs simultaneously creates cognitive load. The alternative, showing them sequentially or in tabs, would have undermined the product thesis that these channels must be designed together. The layout was tested and the simultaneous view was the correct call. The mobile collapse to single-column with a sticky channel selector preserves accessibility without sacrificing the desktop design intent.
+The CSS token architecture is the design centerpiece. Five named sentiment states, each driving a complete color system through a single `data-sentiment` attribute on the root. IBM Plex Sans for interface text, IBM Plex Mono for financial data and classification output. The panel layout hierarchy reflects how a practitioner reads this information: channels at 44%/56%, NLU collapsible below. Mobile is a drawer, not a collapsed state. The design artifact page at `/design-artifact` is a second design deliverable: visual NLU documentation that most conversation design portfolios do not produce.
 
 ### What this demonstrates
-- Multi-channel conversational system design at enterprise scale
-- NLU architecture: intent taxonomy, entity schema, confidence threshold design
-- Emotional state classification and override architecture
-- Agent Assist design as a distinct discipline from customer-facing chatbot and IVR
-- Claude API prompt engineering for structured, typed multi-output contracts
-- Understanding of financial services compliance constraints in conversational contexts
-- Ability to read a job spec as a product spec and build to it
+- Multi-channel conversational system design: IVR, Chatbot, and Agent Assist as a unified architecture
+- Semantic CSS token architecture for emotional state-driven UI theming across five states
+- NLU architecture: 18 intents, entity schema, confidence threshold, priority override rules
+- Full voice pipeline: MediaRecorder, OpenAI Whisper, TTS audio playback, OpenAI Realtime Live Call
+- SSE streaming with progressive UI fill aligned to the product thesis
+- Reading a product requirement as a build spec and shipping to it
+- Visual NLU documentation as a design deliverable (design artifact page)
+- Honest status matrix: acknowledging what is and is not implemented
 
 ---
 
 ## SECTION 8 — CITATIONS
 
-[1] Rasa. "Conversation Design: Understanding Intent Classification and Confidence Thresholds." Rasa Documentation, 2024.
+[1] Rasa. "Conversational AI: Intent Classification and Confidence Thresholds." Rasa Documentation, 2024. rasa.com/docs.
 
-[2] Google Cloud. "Dialogflow CX: Intent Detection and Confidence Scores." cloud.google.com/dialogflow/cx/docs.
+[2] Google Cloud. "Dialogflow CX: Intent Detection and Confidence Scores." cloud.google.com/dialogflow/cx/docs. Accessed 2026.
 
-[3] Microsoft. "Azure LUIS: Active Learning and Utterance Review." docs.microsoft.com/azure/cognitive-services/luis.
+[3] Microsoft Azure. "Conversational Language Understanding: Utterances and Intents." docs.microsoft.com/azure/cognitive-services/language-service. Accessed 2026.
 
-[4] The Journal of the Experience Economy. "Emotional AI and Customer Experience: When Sentiment Detection Drives Routing Logic." 2023.
+[4] Radford, Alec et al. "Robust Speech Recognition via Large-Scale Weak Supervision." OpenAI, arXiv:2212.04356, December 2022.
 
-[5] IBM Research. "Agent Assist: Designing AI for Live Support Contexts." ibm.com/research, 2022.
+[5] OpenAI. "Realtime API Overview." platform.openai.com/docs/guides/realtime. Accessed 2026.
 
-[6] NICE. "2023 CX Transformation Benchmark Study: The State of Contact Center AI." nice.com/resources.
+[6] NICE. "2023 CX Transformation Benchmark Study: The State of Contact Center AI." nice.com/resources, 2023.
 
-[7] Gartner. "Magic Quadrant for Conversational AI Platforms." gartner.com, 2024.
+[7] Nielsen Norman Group. "Emotional Design in Conversational Interfaces." nngroup.com/articles, 2022.
 
-[8] Speech Technology Magazine. "IVR Design Principles: Voice-First Interaction in Financial Services." speechtechmag.com, 2023.
+[8] IBM Institute for Business Value. "The Agent Advantage: How AI Assist Changes Live Support." ibm.com/thought-leadership/institute-business-value, 2023.

@@ -341,11 +341,8 @@ function AgentAssistBody({ data }: { data: AnalysisResult["agent_assist"] }) {
   );
 }
 
-export default function ChannelPanel({
-  channel,
-  result,
-  isLoading,
-}: ChannelPanelProps) {
+export default function ChannelPanel(props: ChannelPanelProps) {
+  const { channel, result } = props;
   const config = CHANNEL_CONFIG[channel];
   const data = result?.[channel];
   const badgeText = data?.status_badge ?? null;

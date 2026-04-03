@@ -71,7 +71,8 @@ function SkeletonRow({ width = "100%" }: { width?: string }) {
   );
 }
 
-export default function NLUSection({ result, isLoading, isExpanded, onToggle }: NLUSectionProps) {
+export default function NLUSection(props: NLUSectionProps) {
+  const { result, isExpanded, onToggle } = props;
   return (
     <div
       id="nlu"

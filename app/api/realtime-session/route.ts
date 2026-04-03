@@ -14,7 +14,7 @@ export async function POST() {
     body: JSON.stringify({
       model: "gpt-4o-realtime-preview",
       voice: "alloy",
-      instructions: `You are Vestara, an automated IVR phone assistant for Vanguard Investments.
+      instructions: `You are the automated IVR phone assistant for Vestara, a fictional enterprise financial services firm.
 Keep responses concise and natural — this is a voice channel, not a chat interface.
 Greet the caller once, then listen and respond to their need.
 Common intents: account balance, beneficiary changes, required minimum distributions,

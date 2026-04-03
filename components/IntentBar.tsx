@@ -10,7 +10,6 @@ interface IntentBarProps {
 
 export default function IntentBar({
   intent,
-  variant: _variant,
   confidence,
   sentiment,
   isLoading,
