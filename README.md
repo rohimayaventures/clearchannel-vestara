@@ -22,10 +22,10 @@ Paste or speak any investor utterance and watch the AI generate:
 - **NLU Architecture** — the full intent taxonomy, entity schema, 
   training phrases, and confidence threshold for the detected intent
 
-Six pre-loaded investor scenarios cover transfers, fraud, balance 
-inquiries, retirement planning, bereavement, and market anxiety. 
-Bereavement and panic-state utterances trigger emotional sensitivity 
-protocols across all three channels.
+Eleven pre-loaded investor scenarios cover transfers, fraud, balance 
+inquiries, retirement planning, bereavement, market anxiety, and additional 
+edge cases. Bereavement and panic-state utterances trigger emotional 
+sensitivity protocols across all three channels.
 
 ---
 
@@ -34,8 +34,8 @@ protocols across all three channels.
 - Next.js 15 (App Router)
 - TypeScript
 - Tailwind CSS v4
-- Anthropic Claude API (claude-sonnet-4-5)
-- OpenAI TTS (IVR voice playback — coming in next phase)
+- Anthropic Claude API (claude-sonnet-4-6)
+- IVR audio playback implemented via /api/speak (OpenAI TTS).
 - Vercel
 
 ---
@@ -70,7 +70,7 @@ Open [http://localhost:3000](http://localhost:3000).
 | Route | Description |
 |---|---|
 | `/` | Main ClearChannel lab — utterance input and three channel outputs |
-| `/design-artifact` | NLU intent library and conversation flow documentation |
+| — | Design Artifact page — planned, not yet built. |
 
 ---
 

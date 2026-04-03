@@ -85,7 +85,6 @@ export default function Topbar({ onDrawerOpen, realtimeActive, onRealtimeToggle 
         <div className="cc-topbar-navlinks">
           {[
             { label: "NLU Architecture", href: "#nlu" },
-            { label: "Design Artifact", href: "/design-artifact" },
           ].map((item) => (
             <Link
               key={item.label}
